@@ -1,0 +1,63 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: [
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                primary: {
+                    DEFAULT: '#ff8243',
+                    btn: '#ff6a00',
+                    50: '#ffe1d2',
+                    100: '#ffc7b0',
+                    200: '#ffa88a',
+                    300: '#ff895f',
+                    400: '#ff703b',
+                    500: '#ff5920',
+                    600: '#f4501d',
+                    700: '#c1431c',
+                    800: '#91381a',
+                    900: '#6d2f17',
+                },
+                secondary: "#091353",
+                softPrimary: "rgba(255, 137, 105, 0.25)",
+            },
+            boxShadow: {
+                btn: "0 0.125rem 0.25rem 0 rgba(255, 137, 105, 0.4)",
+            },
+            backgroundColor: {
+                primary: {
+                    DEFAULT: '#ff8243',
+                    50: '#ffe1d2',
+                    100: '#ffc7b0',
+                    200: '#ffa88a',
+                    300: '#ff895f',
+                    400: '#ff703b',
+                    500: '#ff5920',
+                    600: '#f4501d',
+                    700: '#c1431c',
+                    800: '#91381a',
+                    900: '#6d2f17',
+                },
+                secondary: '#091353',
+            },
+            fontFamily: {
+                sans: ['Public Sans', 'sans-serif'],
+            },
+        },
+        container: {
+            center: true,
+            padding: "1rem",
+            screens: {
+                lg: "1124px",
+                xl: "1124px",
+                "2xl": "1124px",
+            },
+        },
+    },
+    plugins: [],
+}
+
