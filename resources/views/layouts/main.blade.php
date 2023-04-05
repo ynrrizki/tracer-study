@@ -26,10 +26,14 @@
 
     <!-- Vendor -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    {{-- <link rel="stylesheet"
+        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/flatpickr/flatpickr.css"> --}}
 
     <!-- Style -->
     @vite('resources/css/app.css')
     @stack('addon-css')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/custom-flatpickr.css') }}">
 </head>
 
 <body class="font-sans {{ $bgBody ?? '' }}">
@@ -45,7 +49,16 @@
     <!-- Vendor -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    {{-- <script
+        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/flatpickr/flatpickr.js">
+    </script> --}}
+
     <script>
+        $(".form-date").flatpickr({
+            monthSelectorType: "static",
+        });
+
         // Show/hide the modal
         $('[data-modal-toggle]').on('click', function() {
             var target = $(this).data('modal-target');

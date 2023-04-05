@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/questions/delete', [QuestionController::class, 'destroy'])->name('question.delete');
             Route::post('/questions/options-input/save', [OptionInputController::class, 'save'])->name('optionInput.save');
             Route::post('/questions/options-input/delete', [OptionInputController::class, 'destroy'])->name('optionInput.delete');
+            Route::post('/questions/order', [QuestionController::class, 'order'])->name('question.order');
             // User Management
             Route::resource('user', UserController::class);
 

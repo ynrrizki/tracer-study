@@ -20,6 +20,7 @@ class QuestionSeeder extends Seeder
             'category_id' => 4,
             'type_input_id' => 4,
             'name'      => 'Status',
+            'order' => 1,
         ]);
 
         // 2
@@ -27,6 +28,7 @@ class QuestionSeeder extends Seeder
             'category_id' => 4,
             'type_input_id' => 1,
             'name'      => 'Nama Instansi Tempat Kerja / Kuliah',
+            'order' => 2,
         ]);
 
         // 3
@@ -34,6 +36,7 @@ class QuestionSeeder extends Seeder
             'category_id' => 4,
             'type_input_id' => 1,
             'name'      => 'Kesesuaian Jurusan dengan Tempat Bekerja / Kuliah',
+            'order' => 3,
         ]);
 
         // 1
@@ -41,6 +44,7 @@ class QuestionSeeder extends Seeder
             'category_id' => 5,
             'type_input_id' => 1,
             'name'      => 'Secara umum, bagaimana kepuasan Anda terhadap pembelajaran SMK?',
+            'order' => 4,
         ]);
     }
 }

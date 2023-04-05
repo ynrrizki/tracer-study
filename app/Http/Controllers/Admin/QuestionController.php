@@ -14,8 +14,8 @@ class QuestionController extends Controller
 {
     public function index(): View
     {
-        $surveyQuestions = Question::with('optionInputs')->where('category_id', '4')->get();
-        $feedBackQuestions = Question::with('optionInputs')->where('category_id', '5')->get();
+        $surveyQuestions = Question::with('optionInputs')->orderBy('order', 'ASC')->where('category_id', '4')->get();
+        $feedBackQuestions = Question::with('optionInputs')->orderBy('order', 'ASC')->where('category_id', '5')->get();
         $typeInputs = TypeInput::all();
         return view('pages.admin.questions.index', compact('surveyQuestions', 'feedBackQuestions', 'typeInputs'));
     }
@@ -27,6 +27,7 @@ class QuestionController extends Controller
             'type_input_id' => $request->type_input,
             'name' => $request->name,
         ]);
+        $question->update(['order' => $question->id]);
 
         if (in_array($question->type_input_id, [2, 3, 4])) {
             for ($i = 1; $i <= 2; $i++) {
@@ -51,5 +52,18 @@ class QuestionController extends Controller
         $question->delete();
 
         return back();
+    }
+
+    public function order(Request $request)
+    {
+        $data = Question::all();
+        foreach ($data as $row) {
+            foreach ($request->order as $order)
+                if ($order['id'] == $row->id) {
+                    $row->update(['order' => $order['position']]);
+                }
+        }
+
+        return response()->json(['success' => true]);
     }
 }

@@ -25,6 +25,15 @@
 }
 
 @layer components {
+    select.is-invalid,
+    input.is-invalid {
+        @apply border border-solid border-red-400;
+    }
+
+    .invalid-feedback {
+        @apply text-red-400 text-sm;
+    }
+
     .label {
         @apply font-semibold text-[#566a7f] uppercase text-[0.75rem];
     }
@@ -35,7 +44,7 @@
 
     .form-control {
         @apply outline-none focus:placeholder:translate-x-1 focus:placeholder:duration-300 focus:placeholder:transition-all focus:placeholder:ease-in-out
-        w-full py-3 px-3 mt-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded-[7px] focus:outline-1 focus:transition-all focus:duration-300;
+        w-full py-3 px-3 mt-2 mb-1 text-base leading-normal bg-white text-[#697a8d] border border-gray-200 rounded-[7px] focus:outline-1 focus:transition-all focus:duration-300;
     }
 
     [type="text"]:focus,

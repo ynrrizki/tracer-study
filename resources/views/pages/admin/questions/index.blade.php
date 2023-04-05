@@ -269,7 +269,8 @@
                         let button = `<div class="form-group mb-5 question-card-button">
                         <button type="button" class="btn btn-warning question-card-cancel" onclick="questionCardButton('cancel', {{ $questionId }})">Cancel</button>
                         <button class="btn btn-danger open-modal" data-toggle="modal" data-target="#modal-default" onclick="questionCardButton('delete', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Delete</button>
-                        </div>`;
+                        </div>
+                        `;
                         $(button).hide().insertAfter(this).fadeIn('slow');
                         isSelectedCard = true;
 
@@ -325,10 +326,12 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group mt-3">
                     <button type="reset" class="btn btn-warning">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                <div class="mt-3">
+                    <span>Tekan "Tab" untuk menambahkan opsi pada field</span>
                 </div>
             </form>`;
                 $(".type-input option:selected").each(function() {
@@ -385,9 +388,46 @@
                         handle: ".move",
                         cancel: ".card.card-body",
                         disabled: false,
+                        start: function(event, ui) {
+                            ui.placeholder.html('<div class="card card-body bg-light mb-3"></div>');
+                            ui.helper.addClass('card-shadow');
+                        },
+                        update: function(event, ui) {
+                            updateQuestionOrder($(this), event, ui);
+                        }
                     }).disableSelection();
                 }
             });
+
+            function updateQuestionOrder(sortable, event, ui) {
+                let data = {};
+                let order = [];
+                $('.question-card').each(function(index, element) {
+                    order.push({
+                        id: $(this).data('question').id,
+                        position: index + 1
+                    });
+                });
+                // data.questions = ui.item.data('question');
+                // data.cur_question_id = ui.item.data('question').id;
+                // data.prev_question_id = ui.item.prev().data('question') ? ui.item.prev().data('question').id : null;
+                // data.next_question_id = ui.item.next().data('question') ? ui.item.next().data('question').id : null;
+                data.order = order;
+                data._token = '{{ csrf_token() }}';
+                console.log(data);
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('question.order') }}',
+                    dataType: "JSON",
+                    data: data,
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
 
 
             function appendOptionInput() {

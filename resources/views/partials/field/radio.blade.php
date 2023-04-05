@@ -3,7 +3,7 @@
         {{ $question->name }}
     </label>
     @foreach ($question->optionInputs as $option)
-        <div class="form-check ml-6">
+        <div class="flex ml-6">
             <input
                 class="hover:cursor-pointer absolute mt-1 -ml-6 appearance-none checked:bg-primary hover:checked:bg-primary-400 @error($wireModel) radio-error @enderror"
                 type="radio" name="{{ $question->id }}" id="{{ $option->name }}" wire:model="{{ $wireModel }}"

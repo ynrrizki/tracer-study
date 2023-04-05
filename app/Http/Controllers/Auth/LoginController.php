@@ -40,7 +40,7 @@ class LoginController extends Controller
             $credential['password'] = $request->nik;
             unset($credential['g-recaptcha-response']);
         }
-        if (Auth::attempt($credential)) {
+        if (Auth::attempt($credential, $request->remember)) {
             $request->session()->regenerate();
             $panel = null;
             if (Auth::user()->role == 'ADMIN') {

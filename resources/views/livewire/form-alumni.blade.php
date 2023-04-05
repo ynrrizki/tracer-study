@@ -1,4 +1,4 @@
-<div class="w-full">
+<div class="w-full p-5">
     <div class="w-full mt-5 flex flex-col items-center">
         <img class="w-28 mb-20 logo-shadow p-5 rounded-full bg-white " src="{{ asset('assets/logo/logo.png') }}"
             alt="Prestasi Prima">
@@ -19,7 +19,7 @@
                     <button type="button"
                         class="btn {{ $currentStep == 3 ? 'btn-primary' : 'btn-disable' }} rounded-full cursor-default"
                         {{ $currentStep == 3 ? '' : 'disabled' }}>3</button>
-                    <p class="mt-2 text-gray-600">Feed Back</p>
+                    <p class="mt-2 {{ $currentStep == 3 ? 'text-primary' : 'text-gray-600' }}">Feed Back</p>
                 </div>
             </div>
         </div>
@@ -46,21 +46,22 @@
                         <label class="label">
                             <span class="label-text">Email</span>
                         </label>
-                        <input type="email" placeholder="Email" class="form-control" wire:model="email" disabled />
+                        <input type="email" placeholder="Email"
+                            class="form-control @error('email') is-invalid @enderror" wire:model="email" disabled />
                     </div>
                     <div class="mb-4">
                         <label class="label">
                             <span class="label-text">Jurusan</span>
                         </label>
-                        <select class="form-select @error('major') select-error @enderror" wire:model="major">
+                        <select class="form-select @error('major') is-invalid @enderror" wire:model="major">
                             <option disabled selected value="">Pilih Jurusan</option>
                             @foreach ($majors as $major)
                                 <option value="{{ $major->id }}">{{ $major->name }}</option>
                             @endforeach
                         </select>
                         @error('major')
-                            <label class="label">
-                                <span class="label-text-alt">{{ $message }}</span>
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
                             </label>
                         @enderror
                     </div>
@@ -69,10 +70,10 @@
                             <span class="label-text">Alamat</span>
                         </label>
                         <input type="text" placeholder="Alamat"
-                            class="form-control @error('address') input-error @enderror" wire:model="address" />
+                            class="form-control @error('address') is-invalid @enderror" wire:model="address" />
                         @error('address')
-                            <label class="label">
-                                <span class="label-text-alt">{{ $message }}</span>
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
                             </label>
                         @enderror
                     </div>
@@ -81,10 +82,11 @@
                             <span class="label-text">Tanggal Lahir</span>
                         </label>
                         <input type="date" placeholder="Tanggal Lahir"
-                            class="form-control @error('birth_date') input-error @enderror" wire:model="birth_date" />
+                            class="form-control form-date @error('birth_date') is-invalid @enderror"
+                            wire:model="birth_date" />
                         @error('birth_date')
-                            <label class="label">
-                                <span class="label-text-alt">{{ $message }}</span>
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
                             </label>
                         @enderror
                     </div>
@@ -93,10 +95,10 @@
                             <span class="label-text">Nomer Handphone</span>
                         </label>
                         <input type="text" placeholder="Nomer HP"
-                            class="form-control @error('phone') input-error @enderror" wire:model.defer="phone" />
+                            class="form-control @error('phone') is-invalid @enderror" wire:model.defer="phone" />
                         @error('phone')
-                            <label class="label">
-                                <span class="label-text-alt">{{ $message }}</span>
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
                             </label>
                         @enderror
                     </div>
