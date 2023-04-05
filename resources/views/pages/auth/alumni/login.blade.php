@@ -7,35 +7,45 @@
 @section('content')
     <div class="flex flex-col lg:flex-row h-screen items-center">
         <!-- Bagian kiri -->
-        <div class="bg-primary hidden lg:block w-full lg:w-1/2 xl:w-2/3 h-screen">
-
+        <div class="bg-primary-50 hidden lg:flex justify-center items-center w-full lg:w-1/2 xl:w-2/3 h-screen">
+            <img class="w-2/3" src="{{ asset('assets/img/illustrations/Graduation-bro.svg') }}">
         </div>
 
         <!-- Bagian kanan -->
         <div class="bg-white w-full lg:w-1/2 xl:w-1/3 h-screen lg:h-auto flex items-center lg:px-7 sm:px-32">
-            <div class="p-6 lg:p-10 xl:p-12 w-full">
-                <div class="flex flex-col justify-center items-center mb-8">
-                    <img class="w-20 mb-7" src="{{ asset('assets/logo/logo.png') }}" alt="">
-                    <h2 class="font-bold text-primary text-2xl mb-8">Selamat Datang Alumni!!</h2>
-                </div>
-                <form>
-                    <div class="mb-4">
-                        <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
-                        <input type="email" id="email" name="email"
-                            class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div data-aos="fade-up" class="p-16 sm:p-0 lg:p-20 xl:p-20 w-full">
+                <!-- Header -->
+                <div class="flex justify-center items-center mb-8">
+                    <img class="h-20 w-20
+                    " src="{{ asset('assets/logo/logo.png') }}" alt="">
+                    <div class="flex flex-col">
+                        <h1 class="text-3xl text-secondary font-bold">Tracer Study</h1>
+                        <h1 class="text-3xl text-primary font-bold">Prestasi Prima</h1>
                     </div>
+                </div>
+                <form action="{{ route('auth.login') }} " method="POST">
+                    @csrf
                     <div class="mb-4">
-                        <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
-                        <input type="password" id="password" name="password"
-                            class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <label for="nik" class="label">NIK</label>
+                        <input type="text" id="nik" name="nik" placeholder="Masukkan NIK Anda"
+                            class="form-control focus:shadow-outline">
+                    </div>
+                    <div class="mt-6 mb-4">
+                        <label class="label">
+                            <span>Google RECAPTCHA</span>
+                        </label>
+
+                        {!! NoCaptcha::renderJs() !!}
+                        {!! NoCaptcha::display() !!}
                     </div>
                     <div class="mb-8">
                         <label for="remember" class="inline-flex items-center">
-                            <input type="checkbox" id="remember" name="remember" class="form-checkbox text-indigo-600">
-                            <span class="ml-2 text-gray-700 font-bold">Ingat Saya</span>
+                            <input type="checkbox" id="remember" name="remember" class="form-checkbox  text-primary-600">
+                            <span class="ml-2 text-gray-600">Remember Me</span>
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary w-full">Masuk</button>
+                    <button type="submit" class="btn btn-primary w-full mb-4">Masuk</button>
+                    <a href="/" class="btn btn-outline-secondary w-full">Kembali</a>
                 </form>
                 <hr class="my-8">
                 {{-- <p class="mt-8">Belum punya akun? <a href="#"

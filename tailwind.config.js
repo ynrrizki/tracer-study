@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    mode: 'jit',
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
@@ -27,6 +28,9 @@ module.exports = {
             },
             boxShadow: {
                 btn: "0 0.125rem 0.25rem 0 rgba(255, 137, 105, 0.4)",
+            },
+            backgroundImage: {
+                'select': `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%2867, 89, 113, 0.6%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e")`,
             },
             backgroundColor: {
                 primary: {
@@ -58,6 +62,8 @@ module.exports = {
             },
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms'),
+    ],
 }
 

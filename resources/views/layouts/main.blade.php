@@ -29,17 +29,18 @@
 
     <!-- Style -->
     @vite('resources/css/app.css')
+    @stack('addon-css')
 </head>
 
-<body class="font-sans">
+<body class="font-sans {{ $bgBody ?? '' }}">
     <!-- Navbar Section -->
-    @include('partials.navbar')
+    @include('partials.navbar', ['using' => $isNavbar ?? true])
     <main>
         @yield('content')
     </main>
 
     <!-- Footer -->
-    @include('partials.footer')
+    @include('partials.footer', ['using' => $isFooter ?? true])
 
     <!-- Vendor -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
@@ -70,7 +71,10 @@
     </script>
 
     <script>
-        AOS.init();
+        AOS.init({
+            once: true,
+        });
+        AOS.refreshHard(); // initialize AOS animations
 
         // bg-white sticky shadow-md
         window.addEventListener("scroll", function() {
@@ -87,6 +91,7 @@
             }
         });
     </script>
+    @stack('addon-js')
 </body>
 
 </html>

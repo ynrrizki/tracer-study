@@ -29,6 +29,7 @@ class AlumniController extends Controller
         $answers = Answer::where('user_id', auth()->user()->id)->get();
 
         return view('pages.alumni.index', compact('alumni', 'questions', 'majors', 'personalData', 'answers'));
+        // return view('pages.alumni.index', compact('questions'));
     }
 
     public function updateAlumniSurveyAnswers(Request $request): RedirectResponse

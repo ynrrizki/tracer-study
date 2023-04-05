@@ -94,8 +94,9 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="fw-semibold d-block">John Doe</span>
-                                        <small class="text-muted">Admin</small>
+                                        <span
+                                            class="fw-semibold d-block">{{ Str::before(auth()->user()->name, ' ') }}</span>
+                                        <small class="text-muted">{{ Str::title(auth()->user()->role) }}</small>
                                     </div>
                                 </div>
                             </a>
@@ -110,7 +111,13 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                            <a class="dropdown-item" href="/" target="_blank">
+                                <i class="bx bx-windows me-2"></i>
+                                <span class="align-middle">Landing Page</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}">
                                 <i class="bx bx-power-off me-2"></i>
                                 <span class="align-middle">Log Out</span>
                             </a>
