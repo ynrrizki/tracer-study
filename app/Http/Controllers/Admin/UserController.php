@@ -48,7 +48,7 @@ class UserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->only(['name', 'nik', 'email', 'type_school_id']);
-        dd($data);
+        // dd($data);
         $data['password'] = bcrypt($data['nik']);
         $data['role'] = 'ALUMNI';
 
@@ -56,7 +56,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->route('users.index');
+        return redirect()->route('user.index');
     }
 
     /**
