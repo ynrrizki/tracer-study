@@ -303,6 +303,7 @@
                 });
             @endforeach
 
+            // Menampilkan opsi input
             $(".type-input").change(function() {
                 let form = `<form action="{{ route('optionInput.save') }}" method="POST" id="form-add-option">
                 @csrf
@@ -335,15 +336,21 @@
                 </div>
             </form>`;
                 $(".type-input option:selected").each(function() {
-                    if (($(this).text() == "select" || $(this).text() == "checkbox" || $(this).text() ==
-                            "radio") && $('#id').val() != "") {
-                        $('#option_input').empty();
-                        $('#option_input').hide().append(form).fadeIn('slow');
+                    const selectedOption = $(this).text();
+                    const id = $('#id').val();
+
+                    if ($.inArray(selectedOption, ["select", "checkbox", "radio"]) && id != "") {
+                        $('.question-card').each(function() {
+                            if (id == $(this).data('question').id && $(this).data('question')
+                                .type_input_id != 1) {
+                                $('#option_input').empty();
+                                $('#option_input').hide().append(form).fadeIn('slow');
+                            }
+                        });
                     } else {
                         $('#option_input').empty();
                     }
                 });
-
             }).change();
 
             // Menambahkan input option pada tombol tambah
@@ -399,6 +406,7 @@
                 }
             });
 
+            // transfer pengurutan data ke server
             function updateQuestionOrder(sortable, event, ui) {
                 let data = {};
                 let order = [];
@@ -408,10 +416,6 @@
                         position: index + 1
                     });
                 });
-                // data.questions = ui.item.data('question');
-                // data.cur_question_id = ui.item.data('question').id;
-                // data.prev_question_id = ui.item.prev().data('question') ? ui.item.prev().data('question').id : null;
-                // data.next_question_id = ui.item.next().data('question') ? ui.item.next().data('question').id : null;
                 data.order = order;
                 data._token = '{{ csrf_token() }}';
                 console.log(data);

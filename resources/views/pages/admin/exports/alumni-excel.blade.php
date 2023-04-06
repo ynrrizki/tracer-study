@@ -15,9 +15,6 @@
                 Email
             </th>
             <th>
-                Jurusan
-            </th>
-            <th>
                 Alamat
             </th>
             <th>
@@ -25,6 +22,12 @@
             </th>
             <th>
                 Tanggal Lahir
+            </th>
+            <th>
+                Jurusan
+            </th>
+            <th>
+                Lembaga
             </th>
             @foreach ($questions as $question)
                 <th>
@@ -46,21 +49,28 @@
                     {{ $alumni->email }}
                 </td>
                 <td>
+                    {{ $alumni->personalData->address ?? '' }}
+                </td>
+                <td>
+                    {{ $alumni->personalData->phone ?? '' }}
+                </td>
+                <td>
+                    {{ $alumni->personalData->birth_date ?? '' }}
+                </td>
+                <td>
                     {{ $alumni->personalData->major->name ?? '' }}
                 </td>
                 <td>
-                    {{ $alumni->personalData->major->address ?? '' }}
+                    {{ $alumni->typeSchool->name ?? '' }}
                 </td>
-                <td>
-                    {{ $alumni->personalData->major->phone ?? '' }}
-                </td>
-                <td>
-                    {{ $alumni->personalData->major->birth_date ?? '' }}
-                </td>
-                @foreach ($alumni->answers as $answer)
-                    <td>
-                        {{ $answer->fill ?? '-' }}
-                    </td>
+                @foreach ($questions as $question)
+                    @foreach ($alumni->answers as $answer)
+                        @if ($answer->question_id == $question->id)
+                            <td>
+                                {{ $answer->fill ?? '-' }}
+                            </td>
+                        @endif
+                    @endforeach
                 @endforeach
             </tr>
         @endforeach
