@@ -82,8 +82,13 @@ class FormAlumni extends Component
 
     public function render()
     {
+        $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', 3)->count();
+        // if ($finished_filling) {
+        //     $this->setCurrentStep(3);
+        // }
         // dd($this->survey);
         return view('livewire.form-alumni', [
+            'finish' => $finished_filling,
             'questions' => $this->questions,
             'answers' => $this->answers,
             'majors' => $this->majors,
@@ -97,11 +102,17 @@ class FormAlumni extends Component
     {
 
         $this->validate([
+            'email' => 'required',
             'major' => 'required',
             'address' => 'required',
             'birth_date' => 'required',
             'phone' => 'required',
         ]);
+
+        if (isset($this->email)) {
+            $user = User::findOrFail(auth()->user()->id);
+            $user->update(['email' => $this->email]);
+        }
 
         PersonalData::updateOrCreate(
             ['user_id' => auth()->user()->id,],
@@ -136,8 +147,6 @@ class FormAlumni extends Component
             ]);
         }
 
-        session()->flash('message', 'Survey answers updated successfully!');
-
         $this->setCurrentStep(3);
     }
 
@@ -161,6 +170,7 @@ class FormAlumni extends Component
             ]);
         }
 
-        session()->flash('message', 'Survey answers updated successfully!');
+        // session(['message', 'Survey answers updated successfully!']);
+        session()->flash('message', 'Data Berhasil Di Simpan.');
     }
 }

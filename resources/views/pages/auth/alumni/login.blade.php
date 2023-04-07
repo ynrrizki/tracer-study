@@ -8,7 +8,7 @@
     <div class="flex flex-col lg:flex-row h-screen items-center">
         <!-- Bagian kiri -->
         <div class="bg-primary-50 hidden lg:flex justify-center items-center w-full lg:w-1/2 xl:w-2/3 h-screen">
-            <img class="w-2/3" src="{{ asset('assets/img/illustrations/Graduation-bro.svg') }}">
+            <img data-aos="zoom-in" class="w-2/3" src="{{ asset('assets/img/illustrations/Graduation-bro.svg') }}">
         </div>
 
         <!-- Bagian kanan -->

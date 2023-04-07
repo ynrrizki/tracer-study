@@ -1,7 +1,29 @@
 <div class="w-full p-5">
+    <style>
+        .swal2-styled.swal2-confirm:focus {
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        }
+
+        .swal2-confirm.swal2-styled {
+            border-radius: 0.25rem;
+            border-width: 2px;
+            border-style: solid;
+            --tw-border-opacity: 1;
+            border-color: rgb(255 106 0 / var(--tw-border-opacity));
+            --tw-bg-opacity: 1;
+            background-color: rgb(255 106 0 / var(--tw-bg-opacity));
+            --tw-text-opacity: 1;
+            color: rgb(255 255 255 / var(--tw-text-opacity));
+            --tw-shadow: 0 0.125rem 0.25rem 0 rgba(255, 137, 105, 0.4);
+            --tw-shadow-colored: 0 0.125rem 0.25rem 0 var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        }
+    </style>
     <div class="w-full mt-5 flex flex-col items-center">
-        <img class="w-28 mb-20 logo-shadow p-5 rounded-full bg-white " src="{{ asset('assets/logo/logo.png') }}"
-            alt="Prestasi Prima">
+        <a href="/">
+            <img class="w-28 mb-20 logo-shadow p-5 rounded-full bg-white " src="{{ asset('assets/logo/logo.png') }}"
+                alt="Prestasi Prima">
+        </a>
         <div class="stepwizard mb-10">
             <div class="stepwizard-row">
                 <div class="stepwizard-step">
@@ -18,7 +40,7 @@
                 <div class="stepwizard-step">
                     <button type="button"
                         class="btn {{ $currentStep == 3 ? 'btn-primary' : 'btn-disable' }} rounded-full cursor-default"
-                        {{ $currentStep == 3 ? '' : 'disabled' }}>3</button>
+                        {{ $currentStep >= 3 ? '' : 'disabled' }}>3</button>
                     <p class="mt-2 {{ $currentStep == 3 ? 'text-primary' : 'text-gray-600' }}">Feed Back</p>
                 </div>
             </div>
@@ -47,7 +69,13 @@
                             <span class="label-text">Email</span>
                         </label>
                         <input type="email" placeholder="Email"
-                            class="form-control @error('email') is-invalid @enderror" wire:model="email" disabled />
+                            class="form-control @error('email') is-invalid @enderror" wire:model="email"
+                            wire:model="email" />
+                        @error('email')
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
+                            </label>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label class="label">
@@ -208,4 +236,24 @@
             @endif
         </div>
     </div>
+    <div class="row mt-12 justify-end flex-row-reverse px-14">
+        @if ($currentStep == 3)
+            <button type="button" class="btn btn-warning ml-10" wire:click="back(1)">
+                <span>Update Data Lagi</span>
+                <i class='ml-1 bx bx-refresh text-xl'></i>
+            </button>
+        @endif
+        <a href="{{ route('logout') }}" class="btn btn-danger">
+            Logout
+        </a>
+    </div>
+    @if (session()->has('message'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: "{{ session('message') }}",
+                showConfirmButton: true,
+            })
+        </script>
+    @endif
 </div>

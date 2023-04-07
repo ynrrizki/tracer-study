@@ -8,7 +8,7 @@
     <div class="flex flex-col lg:flex-row h-screen items-center">
         <!-- Bagian kiri -->
         <div class="bg-primary-50 hidden lg:flex justify-center items-center w-full lg:w-1/2 xl:w-2/3 h-screen">
-            <img class="w-2/3" src="{{ asset('assets/img/illustrations/Meeting-bro.svg') }}">
+            <img data-aos="zoom-in" class="w-2/3" src="{{ asset('assets/img/illustrations/Meeting-bro.svg') }}">
         </div>
 
         <!-- Bagian kanan -->
@@ -28,16 +28,26 @@
                     <div class="mb-4">
                         <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
                         <input type="email" id="email" name="email" placeholder="yanuarrizki165@gmail.com"
-                            class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-primary focus:shadow-outline">
+                            class="form-control focus:shadow-outline @error('email') is-invalid @enderror" autofocus>
+                        @error('email')
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
+                            </label>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
                         <input type="password" id="password" name="password" placeholder="············"
-                            class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-primary focus:shadow-outline">
+                            class="form-control focus:shadow-outline @error('password') is-invalid @enderror">
+                        @error('password')
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
+                            </label>
+                        @enderror
                     </div>
                     <div class="mb-8">
                         <label for="remember" class="inline-flex items-center">
-                            <input type="checkbox" id="remember" name="remember" class="form-checkbox text-indigo-600">
+                            <input type="checkbox" id="remember" name="remember" class="form-checkbox">
                             <span class="ml-2 text-gray-700">Remember Me</span>
                         </label>
                     </div>

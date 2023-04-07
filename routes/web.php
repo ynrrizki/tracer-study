@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('isAdmin')->group(function () {
         Route::prefix('/dashboard')->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('admin');
+            Route::get('/admin/profile', [ProfileController::class, 'index'])->name('profile.admin');
+            Route::post('/admin/profile', [ProfileController::class, 'store'])->name('profile.store');
             Route::post('file-import', [AdminController::class, 'fileImport'])->name('file-import');
             Route::get('file-export', [AdminController::class, 'fileExport'])->name('file-export');
             Route::get('/detail/{id}', [AdminController::class, 'show'])->name('admin.show');
@@ -51,6 +53,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/questions/order', [QuestionController::class, 'order'])->name('question.order');
             // User Management
             Route::resource('user', UserController::class);
+            Route::post('/user/send-email', [UserController::class, 'sendMail'])->name('sendMail');
 
             // Profile
             Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile');

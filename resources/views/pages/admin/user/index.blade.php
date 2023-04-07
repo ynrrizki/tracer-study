@@ -1,46 +1,10 @@
 @extends('layouts.dash')
 
 @section('content')
-    <div class="row g-4 mb-4">
-        <div class="col-sm-6 col-xl-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>Yang Sudah Mengisi</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">21,459</h4>
-                                {{-- <small class="text-success">(+29%)</small> --}}
-                            </div>
-                            <small>Total Alumni</small>
-                        </div>
-                        <span class="badge bg-label-primary rounded p-2">
-                            <i class="bx bx-user bx-sm"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>Yang belum mengisi</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">237</h4>
-                                {{-- <small class="text-success">(+42%)</small> --}}
-                            </div>
-                            <small>Total Alumni</small>
-                        </div>
-                        <span class="badge bg-label-warning rounded p-2">
-                            <i class="bx bx-user-voice bx-sm"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('partials.dash.total-alumni', [
+        'currently_filling' => $currently_filling,
+        'finished_filling' => $finished_filling,
+    ])
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h5 class="card-title">Daftar Alumni</h5>
@@ -160,6 +124,30 @@
         </div>
     </div>
 
+    <div class="modal fade" id="attachMailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <input type="hidden" name="emailForSend" id="emailForSend">
+                            <label for="message" class="form-label">Sampaikan Pesan:</label>
+                            <textarea name="message" id="message" class="form-control" placeholder="message"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="submitMail btn btn-primary">Send Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -167,6 +155,37 @@
 
     @push('addon-js')
         <script>
+            $(document).on('click', '.sendMail', function() {
+                let user = $(this).data('user');
+                $('#attachMailModal').find('.modal-title').append('Mengirim Email Ke ' + user.name);
+                $('#emailForSend').val(user.email);
+            });
+
+            $(document).on('click', '.submitMail', function() {
+                let data = {};
+                data.email = $('#emailForSend').val();
+                data.message = $('#message').val();
+                data._token = '{{ csrf_token() }}';
+                $.ajax({
+                    url: "{{ route('sendMail') }}",
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: data,
+                    success: function(data) {
+                        console.log(data);
+                        $('#attachMailModal').removeClass('fade')
+                        $(".modal-backdrop").remove();
+                        $('#attachMailMoal').hide();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    },
+                })
+            });
+
+
+
+
             $(document).ready(function() {
                 $('#myTable').DataTable();
 

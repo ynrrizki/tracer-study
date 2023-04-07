@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AlumniPPMail;
+use App\Mail\ContactUsMail;
 use App\Models\TypeSchool;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -18,9 +21,18 @@ class UserController extends Controller
     public function index(): View
     {
         // $users = User::where('role', 'ADMIN')->get();
+        // $currently_filling = User::where('role', 'ALUMNI')->has('answers', '>', 0)->has('answers', '<', 3)->count();
+        $currently_filling = User::where('role', 'ALUMNI')->has('personalData', '>=', 1)->has('answers', '<', 3)->count();
+        $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', 3)->count();
+
+        // dd([
+        //     'Sedang Mengisi' => $currently_filling,
+        //     'Sudah Mengisi' => $finished_filling,
+        // ]);
+
         $users = User::where('role', 'ALUMNI')->get();
         $type_schools = TypeSchool::all();
-        $headers = ['Name', 'Nik', 'Email'];
+        $headers = ['Name', 'Nik', 'Email', 'Jurusan'];
         $data = [];
 
         foreach ($users as $user) {
@@ -28,10 +40,11 @@ class UserController extends Controller
                 $user->id,
                 $user->name,
                 $user->nik,
-                $user->email,
+                "<a data-user='$user' data-bs-toggle='modal' data-bs-target='#attachMailModal' class='btn btn-label-dark sendMail'>" . $user->email . "</a>",
+                $user->personalData->major->name ?? '-',
             ];
         }
-        return view('pages.admin.user.index', compact('headers', 'data', 'type_schools'));
+        return view('pages.admin.user.index', compact('headers', 'data', 'type_schools', 'currently_filling', 'finished_filling'));
     }
 
     /**
@@ -106,5 +119,25 @@ class UserController extends Controller
         $user->delete();
 
         return back();
+    }
+
+    public function sendMail(Request $request)
+    {
+        $validatedData = $request->validate([
+            'message' => ['required']
+        ]);
+        $user = User::where('email', $request->email)->first();
+        $dataArray = [
+            'name' => $user->name,
+            'message' => $request->message
+        ];
+        $send = new AlumniPPMail($dataArray);
+        $sendToEmail = $request->email;
+        if (isset($sendToEmail) && !empty($sendToEmail) && filter_var($sendToEmail, FILTER_VALIDATE_EMAIL)) {
+            Mail::to($sendToEmail)->send($send);
+        }
+
+
+        return response()->json(['success' => true]);
     }
 }

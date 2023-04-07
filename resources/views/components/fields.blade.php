@@ -13,37 +13,37 @@
             @case('email')
                 <input type="email" class="form-control @error($name) is-invalid @enderror" id="{{ $name }}"
                     placeholder="{{ $placeholder }}" name="{{ $name }}" aria-label="{{ $placeholder }}"
-                    value="{{ old($name, $value ?? '') }}">
+                    value="{!! old($name, $value ?? '') !!}">
             @break
 
             @case('number')
                 <input type="number" class="form-control @error($name) is-invalid @enderror" id="{{ $name }}"
                     placeholder="{{ $placeholder }}" name="{{ $name }}" aria-label="{{ $placeholder }}"
-                    value="{{ old($name, $value ?? '') }}">
+                    value="{!! old($name, $value ?? '') !!}">
             @break
 
             @case('month')
                 <input type="month" class="form-control @error($name) is-invalid @enderror" id="{{ $name }}"
                     placeholder="{{ $placeholder ?? '' }}" name="{{ $name }}" aria-label="{{ $placeholder ?? '' }}"
-                    value="{{ old($name, $value ?? '') }}">
+                    value="{!! old($name, $value ?? '') !!}">
             @break
 
             @case('year')
                 <input type="number" class="form-control @error($name) is-invalid @enderror" id="{{ $name }}"
                     placeholder="{{ $placeholder ?? '' }}" name="{{ $name }}" aria-label="{{ $placeholder ?? '' }}"
-                    value="{{ old($name, $value ?? '') }}" min="1900" max="{{ date('Y') }}">
+                    value="{!! old($name, $value ?? '') !!}" min="1900" max="{{ date('Y') }}">
             @break
 
             @case('date')
                 <input type="date" class="form-control @error($name) is-invalid @enderror" id="{{ $name }}"
                     placeholder="{{ $placeholder ?? '' }}" name="{{ $name }}" aria-label="{{ $placeholder ?? '' }}"
-                    value="{{ old($name, $value ?? '') }}">
+                    value="{!! old($name, $value ?? '') !!}">
             @break
 
             @case('password')
                 <input type="password" class="form-control @error($name) is-invalid @enderror" id="{{ $name }}"
                     placeholder="{{ $placeholder }}" name="{{ $name }}" aria-label="{{ $placeholder }}"
-                    value="{{ old($name, $value ?? '') }}">
+                    value="{!! old($name, $value ?? '') !!}">
             @break
 
             @case('select')

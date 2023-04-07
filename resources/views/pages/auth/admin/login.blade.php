@@ -8,7 +8,7 @@
     <div class="flex flex-col lg:flex-row h-screen items-center">
         <!-- Bagian kiri -->
         <div class="bg-primary-50 hidden lg:flex justify-center items-center w-full lg:w-1/2 xl:w-2/3 h-screen">
-            <img class="w-2/3" src="{{ asset('assets/img/illustrations/All the data-bro.svg') }}">
+            <img data-aos="zoom-in" class="w-2/3" src="{{ asset('assets/img/illustrations/All the data-bro.svg') }}">
         </div>
 
         <!-- Bagian kanan -->
@@ -28,12 +28,22 @@
                     <div class="mb-4">
                         <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
                         <input type="email" id="email" name="email" placeholder="yanuarrizki165@gmail.com"
-                            class="form-control focus:shadow-outline">
+                            class="form-control focus:shadow-outline @error('email') is-invalid @enderror">
+                        @error('email')
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
+                            </label>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
                         <input type="password" id="password" name="password" placeholder="············"
-                            class="form-control focus:shadow-outline">
+                            class="form-control focus:shadow-outline @error('password') is-invalid @enderror">
+                        @error('password')
+                            <label class="invalid-feedback">
+                                <span>{{ $message }}</span>
+                            </label>
+                        @enderror
                     </div>
                     <div class="mb-8">
                         <label for="remember" class="inline-flex items-center">

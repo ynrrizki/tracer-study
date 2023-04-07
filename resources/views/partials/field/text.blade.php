@@ -3,7 +3,7 @@
         {{ $question->name }}
     </label>
     <input type="text" class="form-control @error($wireModel) is-invalid @enderror" id="{{ $question->id }}"
-        name="{{ $question->id }}" wire:model="{{ $wireModel }}">
+        name="{{ $question->id }}" wire:model="{{ $wireModel }}" required>
     @error($wireModel)
         <label class="invalid-feedback">
             <span>{{ $message }}</span>

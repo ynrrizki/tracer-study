@@ -30,6 +30,12 @@
                 opacity: 1;
                 cursor: move;
             }
+
+            /* .card-body .radio {
+                                                                                                                                                                                                                                                                max-height: 155px;
+                                                                                                                                                                                                                                                                /* Sesuaikan dengan ketinggian maksimum yang Anda inginkan */
+            /* overflow: auto; */
+            /* } */
         </style>
     @endpush
 
@@ -85,12 +91,12 @@
                         <div class="sortable">
                             @foreach ($surveyQuestions as $question)
                                 {{-- CARD LIST PERTANYAAN --}}
-                                <div class="question-card card mb-3" id="question-card-{{ $question->id }}"
-                                    data-question="{{ json_encode($question) }}">
+                                <div class="question-card card mb-3  overflow-hidden" style="max-height: 200px;"
+                                    id="question-card-{{ $question->id }}" data-question="{{ json_encode($question) }}">
                                     <div class="move w-full d-flex justify-content-center">
                                         <i class='bx bx-grid-horizontal'></i>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body vertical-example">
                                         <div class="row">
                                             <div class="col-9">
                                                 @includeWhen(
@@ -228,7 +234,14 @@
     @push('addon-js')
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <script>
+            // new PerfectScrollbar(document.getElementById('verticalScroll'), {
+            //     wheelPropagation: false
+            // });
             $(document).ready(function() {
+                $('.vertical-example').each(function() {
+                    new PerfectScrollbar(this);
+                });
+                console.log($('.vertical-example'));
                 // Ketika nav di klik
                 $('.nav-link').click(function() {
                     // Ambil ID nav yang di klik
@@ -257,7 +270,15 @@
                 if (activeNav !== null) {
                     $('#' + activeNav).tab('show');
                 }
+
+                // $('div.radio').each(function() {
+                //     var inputCount = $(this).find('input').length;
+                //     if (inputCount >= 5) {
+                //         $(this).find('.form-check').slice(5).remove();
+                //     }
+                // });
             });
+
             @foreach ($surveyQuestions as $question)
                 @php
                     $questionId = $question->id;

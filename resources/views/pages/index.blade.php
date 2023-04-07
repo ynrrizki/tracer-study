@@ -16,9 +16,15 @@
                     Cemerlang!
                 </p>
                 <div class="flex justify-center flex-wrap gap-6">
-                    <a href="#" class="btn btn-primary hover:shadow-sm">
-                        Isi Data Alumni
-                    </a>
+                    @auth
+                        <a href="{{ route('alumni') }}" class="btn btn-primary hover:shadow-sm">
+                            Isi Data Alumni
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary hover:shadow-sm">
+                            Isi Data Alumni
+                        </a>
+                    @endauth
                     <a href="#" class="btn btn-outline-secondary hover:shadow-sm">
                         Masuk Sebagai Dudi
                     </a>

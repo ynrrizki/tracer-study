@@ -6,6 +6,7 @@ use App\Exports\AlumniExport;
 use App\Http\Controllers\Controller;
 use App\Imports\AlumniImport;
 use App\Models\Answer;
+use App\Models\OptionInput;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,8 +18,7 @@ class AdminController extends Controller
     {
         $alumnus = User::with('personalData', 'personalData.major', 'answers')->where('role', 'ALUMNI')->get();
         $answers = Answer::with('question')->get();
-        $questions = Question::all();
-        // $not_filled = User::where('level', 'ALUMNI')->doesntHave('answers')->count();
+        $questions = Question::with(['optionInputs', 'answers'])->where('type_input_id', 4)->get();
         $currently_filling = User::where('role', 'ALUMNI')->has('answers', '>', 0)->has('answers', '<', 3)->count();
         $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', 3)->count();
 
@@ -27,7 +27,7 @@ class AdminController extends Controller
         // dd($alumnus);
 
         // return response()->json($alumnus);
-        return view('pages.admin.index', compact('answers', 'alumnus', 'currently_filling', 'finished_filling', 'id'));
+        return view('pages.admin.index', compact('answers', 'alumnus', 'currently_filling', 'finished_filling', 'id', 'questions'));
     }
 
     public function fileImport(Request $request)

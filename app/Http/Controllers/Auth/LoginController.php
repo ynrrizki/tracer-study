@@ -29,13 +29,13 @@ class LoginController extends Controller
 
         if ($request->has("email") && $request->has("password")) {
             $credential = $request->validate([
-                'email'  => 'required',
+                'email'  => 'required|email',
                 'password'  => 'required'
             ]);
         } else {
             $credential = $request->validate([
                 'nik'       =>  'required',
-                'g-recaptcha-response' => 'required|captcha',
+                // 'g-recaptcha-response' => 'required|captcha',
             ]);
             $credential['password'] = $request->nik;
             unset($credential['g-recaptcha-response']);

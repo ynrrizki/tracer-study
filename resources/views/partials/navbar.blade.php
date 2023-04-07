@@ -76,18 +76,17 @@
                             <li>
                                 @if (auth()->user()->role == 'ALUMNI')
                                     <a href="{{ route('alumni') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                        role="menuitem">Dashboard</a>
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-semibold"
+                                        role="menuitem">Form Kuisioner</a>
                                 @else
                                     <a href="{{ route('admin') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-semibold"
                                         role="menuitem">Dashboard</a>
                                 @endif
-
                             </li>
                             <li>
                                 <a href="{{ route('logout') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-semibold"
                                     role="menuitem">Logout</a>
                             </li>
                         </ul>

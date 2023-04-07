@@ -21,7 +21,7 @@
                     @foreach ($row as $cell)
                         @if ($cell != $loop->first)
                             <td>
-                                {{ $cell }}
+                                {!! $cell !!}
                             </td>
                         @endif
                     @endforeach
