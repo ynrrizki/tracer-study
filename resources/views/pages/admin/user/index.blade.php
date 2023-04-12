@@ -26,7 +26,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('file-export') }}">
+                            <a class="dropdown-item d-flex align-items-center" href="{{ route('alumni.file-export') }}">
                                 <i class='bx bx-chevron-right scaleX-n1-rtl'></i>
                                 Export
                             </a>
@@ -55,7 +55,8 @@
 
         <div class="card-body">
             <div class="table-responsive text-nowrap">
-                <x-table :headers="$headers" :data="$data" :delete="'user.destroy'" :offcanvasId="'offcanvasAlumni'" />
+                <x-table :headers="$headers" :data="$data" :delete="'user.destroy'" :offcanvasId="'offcanvasAlumni'" :canShow="true"
+                    :show="'user.show'" />
             </div>
         </div>
         <!-- Offcanvas to form alumni -->
@@ -78,7 +79,7 @@
                 @fields([
                     'label' => 'NIK',
                     'name' => 'nik',
-                    'placeholder' => '1234567890123456',
+                    'placeholder' => '31750XXXXXXXXXXX',
                     'type' => 'text',
                 ])
                 @fields([
@@ -88,6 +89,12 @@
                     'options' => $type_schools->map(function ($type_school) {
                             return '<option value="' . $type_school->id . '">' . $type_school->name . '</option>';
                         })->join(' '),
+                ])
+                @fields([
+                    'label' => 'Tahun Angkatan',
+                    'name' => 'grade_at',
+                    'placeholder' => '2023',
+                    'type' => 'text',
                 ])
                 <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
                 <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
@@ -101,13 +108,88 @@
     <!-- Modal -->
     <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ route('file-import') }}" enctype="multipart/form-data" method="POST">
+            <form class="modal-content" action="{{ route('alumni.file-import') }}" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="backDropModalTitle">Modal title</h5>
+                    <h5 class="modal-title" id="backDropModalTitle">Import Alumni</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-bordered py-4">
+                                <thead>
+                                    <tr>
+                                        <th colspan="5">urutan column excel</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>NIK</th>
+                                        <th>Lembaga SMA/SMK</th>
+                                        <th>Tahun Lulus</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            {{-- <table class="table table-bordered py-4" id="myTable">
+                                <thead>
+                                    <tr>
+                                        @foreach ($headers as $header)
+                                            <th>{{ $header }}</th>
+                                        @endforeach
+                                        @if ($canDelete || $canEdit)
+                                            <th>actions</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $row)
+                                        <tr>
+                                            @foreach ($row as $cell)
+                                                @if ($cell != $loop->first)
+                                                    <td>
+                                                        {!! $cell !!}
+                                                    </td>
+                                                @endif
+                                            @endforeach
+
+                                            @if ($canDelete || $canEdit)
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i
+                                                                class="bx bx-dots-vertical-rounded"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            @if ($canEdit)
+                                                                <button type="button" class="btn-edit dropdown-item"
+                                                                    data-bs-toggle="offcanvas"
+                                                                    data-bs-target="#{{ $offcanvasId }}"
+                                                                    aria-controls="offcanvasEnd"
+                                                                    data-id="{{ $row[0] }}"><i
+                                                                        class="bx bx-edit-alt me-1"></i>
+                                                                    Edit
+                                                                </button>
+                                                            @endif
+                                                            @if ($canDelete)
+                                                                <form action="{{ route($delete, $row[0]) }}" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        <i class="bx bx-trash me-1"></i>
+                                                                        Delete
+                                                                    </button>
+                                                                </form>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table> --}}
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col mb-3">
                             <label for="nameBackdrop" class="form-label">File Import</label>
@@ -128,7 +210,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1"></h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Mengirim Email Ke Alumni</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -157,8 +239,8 @@
         <script>
             $(document).on('click', '.sendMail', function() {
                 let user = $(this).data('user');
-                $('#attachMailModal').find('.modal-title').append('Mengirim Email Ke ' + user.name);
                 $('#emailForSend').val(user.email);
+                // $('#attachMailModal').find('.modal-title').append('Mengirim Email Ke ' + $('#emailForSend').val());
             });
 
             $(document).on('click', '.submitMail', function() {
@@ -176,6 +258,7 @@
                         $('#attachMailModal').removeClass('fade')
                         $(".modal-backdrop").remove();
                         $('#attachMailMoal').hide();
+                        $('.user-send').remove();
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
@@ -206,6 +289,7 @@
                             $('#email').val(data.email);
                             $('#nik').val(data.nik);
                             $('#type_school_id').val(data.type_school_id);
+                            $('#grade_at').val(data.grade_at);
                             $('#alumniForm').attr('action', url_update);
                         },
                         error: function(xhr) {

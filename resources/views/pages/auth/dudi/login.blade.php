@@ -26,7 +26,7 @@
                 <form action="{{ route('auth.login') }}" method="POST">
                     @csrf
                     <div class="mb-4">
-                        <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+                        <label for="email" class="label">Email</label>
                         <input type="email" id="email" name="email" placeholder="yanuarrizki165@gmail.com"
                             class="form-control focus:shadow-outline @error('email') is-invalid @enderror" autofocus>
                         @error('email')
@@ -36,7 +36,7 @@
                         @enderror
                     </div>
                     <div class="mb-4">
-                        <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
+                        <label for="password" class="label">Password</label>
                         <input type="password" id="password" name="password" placeholder="············"
                             class="form-control focus:shadow-outline @error('password') is-invalid @enderror">
                         @error('password')

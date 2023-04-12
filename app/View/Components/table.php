@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 
 class table extends Component
 {
-    protected $headers, $data, $delete, $offcanvasId, $canDelete, $canEdit;
+    protected $headers, $data, $delete, $show, $offcanvasId, $canDelete, $canEdit, $canShow;
     /**
      * Create a new component instance.
      */
@@ -16,16 +16,20 @@ class table extends Component
         $headers = [],
         $data = [],
         $delete = null,
+        $show = null,
         $offcanvasId = null,
         $canDelete = true,
         $canEdit = true,
+        $canShow = false,
     ) {
         $this->headers = $headers;
         $this->data = $data;
         $this->delete = $delete;
+        $this->show = $show;
         $this->offcanvasId = $offcanvasId;
         $this->canDelete = $canDelete;
         $this->canEdit = $canEdit;
+        $this->canShow = $canShow;
     }
 
     /**
@@ -36,9 +40,21 @@ class table extends Component
         $headers = $this->headers;
         $data   = $this->data;
         $delete = $this->delete;
+        $show = $this->show;
         $offcanvasId = $this->offcanvasId;
         $canDelete = $this->canDelete;
         $canEdit = $this->canEdit;
-        return view('components.table', compact('headers', 'data', 'delete', 'offcanvasId', 'canDelete', 'canEdit'));
+        $canShow = $this->canShow;
+
+        return view('components.table', compact(
+            'headers',
+            'data',
+            'delete',
+            'show',
+            'offcanvasId',
+            'canDelete',
+            'canEdit',
+            'canShow',
+        ));
     }
 }

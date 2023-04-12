@@ -14,20 +14,56 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $alumnus = User::with('personalData', 'personalData.major', 'answers')->where('role', 'ALUMNI')->get();
-        $answers = Answer::with('question')->get();
-        $questions = Question::with(['optionInputs', 'answers'])->where('type_input_id', 4)->get();
-        $currently_filling = User::where('role', 'ALUMNI')->has('answers', '>', 0)->has('answers', '<', 3)->count();
+        $answers = Answer::with('question', 'user')
+            ->whereHas('question', function ($query) {
+                return $query->whereHas('typeInput', function ($query) {
+                    return $query
+                        ->where('name', 'radio')
+                        ->orWhere('name', 'select');
+                });
+            })
+            ->get();
+        $questions = Question::with(['optionInputs', 'answers', 'answers.user'])
+            ->latest()
+            ->filter(request(['search_grade_at']))
+            ->whereHas('typeInput', function ($query) {
+                return $query
+                    ->where('name', 'radio')
+                    ->orWhere('name', 'select');
+            })
+            ->get();
+
+        // dd($questions);
+        // return response()->json($questions);
+        $currently_filling = User::where('role', 'ALUMNI')->has('personalData', '>', 0)->has('answers', '<', 3)->count();
         $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', 3)->count();
+        $survey_question = Question::where('category_id', 4)->count();
+        $feedback_question = Question::where('category_id', 5)->count();
+        $range_grade_at = [];
+        foreach ($alumnus as $alumni) {
+            array_push($range_grade_at, $alumni->grade_at);
+        }
+
+        $range_grade_at = array_unique($range_grade_at);
+        $range_grade_at = array_reverse($range_grade_at);
+        $range_grade_at = array_reverse($range_grade_at);
 
         $id = $request['id'] ?? 'null';
 
-        // dd($alumnus);
-
-        // return response()->json($alumnus);
-        return view('pages.admin.index', compact('answers', 'alumnus', 'currently_filling', 'finished_filling', 'id', 'questions'));
+        return view('pages.admin.index', compact(
+            'answers',
+            'alumnus',
+            'currently_filling',
+            'finished_filling',
+            'id',
+            'questions',
+            'range_grade_at',
+            'survey_question',
+            'feedback_question'
+        ));
     }
 
     public function fileImport(Request $request)

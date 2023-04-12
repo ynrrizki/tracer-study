@@ -34,7 +34,7 @@ class LoginController extends Controller
             ]);
         } else {
             $credential = $request->validate([
-                'nik'       =>  'required',
+                'nik' =>  'required',
                 'g-recaptcha-response' => 'required|captcha',
             ]);
             $credential['password'] = $request->nik;

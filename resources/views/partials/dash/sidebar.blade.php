@@ -22,6 +22,13 @@
                     <div data-i18n="Manajemen Alumni">Manajemen Alumni</div>
                 </a>
             </li>
+            <!-- Manajemen Jurusan -->
+            <li class="menu-item {{ is_route('major.index', 'active') }}">
+                <a href="{{ route('major.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-blanket"></i>
+                    <div data-i18n="Manajemen Alumni">Manajemen Jurusan</div>
+                </a>
+            </li>
             {{-- <li class="menu-item">
                 <a href="javascript:void(0)" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bx-user"></i>

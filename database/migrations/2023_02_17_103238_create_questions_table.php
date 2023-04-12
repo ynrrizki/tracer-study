@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('type_input_id');
             $table->string('name');
             $table->integer('order')->unsigned()->default(0);
+            $table->enum('required', ['true', 'false'])->default("true");
             $table->timestamps();
         });
     }

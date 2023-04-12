@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\MajorController;
 use App\Http\Controllers\Admin\OptionInputController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\QuestionController;
@@ -40,8 +41,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('admin');
             Route::get('/admin/profile', [ProfileController::class, 'index'])->name('profile.admin');
             Route::post('/admin/profile', [ProfileController::class, 'store'])->name('profile.store');
-            Route::post('file-import', [AdminController::class, 'fileImport'])->name('file-import');
-            Route::get('file-export', [AdminController::class, 'fileExport'])->name('file-export');
             Route::get('/detail/{id}', [AdminController::class, 'show'])->name('admin.show');
 
             // Question Management
@@ -51,9 +50,17 @@ Route::middleware('auth')->group(function () {
             Route::post('/questions/options-input/save', [OptionInputController::class, 'save'])->name('optionInput.save');
             Route::post('/questions/options-input/delete', [OptionInputController::class, 'destroy'])->name('optionInput.delete');
             Route::post('/questions/order', [QuestionController::class, 'order'])->name('question.order');
+
             // User Management
             Route::resource('user', UserController::class);
             Route::post('/user/send-email', [UserController::class, 'sendMail'])->name('sendMail');
+            Route::post('file-import/alumni', [AdminController::class, 'fileImport'])->name('alumni.file-import');
+            Route::get('file-export/alumni', [AdminController::class, 'fileExport'])->name('alumni.file-export');
+
+            // Major Management
+            Route::resource('major', MajorController::class);
+            Route::post('file-import/major', [MajorController::class, 'fileImport'])->name('major.file-import');
+            Route::get('file-export/major', [MajorController::class, 'fileExport'])->name('major.file-export');
 
             // Profile
             Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile');

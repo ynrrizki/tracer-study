@@ -82,11 +82,8 @@ class FormAlumni extends Component
 
     public function render()
     {
-        $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', 3)->count();
-        // if ($finished_filling) {
-        //     $this->setCurrentStep(3);
-        // }
-        // dd($this->survey);
+        $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', Question::count())->count();
+
         return view('livewire.form-alumni', [
             'finish' => $finished_filling,
             'questions' => $this->questions,

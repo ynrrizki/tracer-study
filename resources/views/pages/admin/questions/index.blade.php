@@ -30,24 +30,18 @@
                 opacity: 1;
                 cursor: move;
             }
-
-            /* .card-body .radio {
-                                                                                                                                                                                                                                                                max-height: 155px;
-                                                                                                                                                                                                                                                                /* Sesuaikan dengan ketinggian maksimum yang Anda inginkan */
-            /* overflow: auto; */
-            /* } */
         </style>
     @endpush
 
     <div class="row mt-4">
-        <div class="col-xl-4 col-lg-5 col-md-5">
+        <div class="col-xl-4 col-lg-5 col-md-12">
             <h4 class="mt-2 mb-4">Form Pertanyaan</h4>
             {{-- CARD FORM PERTANYAAN --}}
             <div class="card mb-4">
                 <form action="{{ route('question.save') }}" method="POST" id="form-question">
                     @csrf
                     <input type="hidden" name="id" id="id">
-                    <input type="hidden" name="category" value="4" id="category">
+                    <input type="hidden" name="category" id="category">
                     <div class="card-body">
                         <div class="mb-4">
                             <label for="inputQuestionTitle" class="form-label">Judul Pertanyaan</label>
@@ -59,10 +53,18 @@
                             <select class="form-control type-input" id="inputQuestionTypeInput" name="type_input" required>
                                 <option selected value="" disabled>Choose Option....</option>
                                 @foreach ($typeInputs as $typeInput)
-                                    @if ($typeInput->name != 'date' && $typeInput->name != 'checkbox' && $typeInput->name != 'select')
+                                    @if (!in_array($typeInput->name, ['date', 'checkbox']))
                                         <option value="{{ $typeInput->id }}">{{ $typeInput->name }}</option>
                                     @endif
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Wajib Di isi atau tidak</label>
+                            <select class="form-control" id="inputQuestionRequiredInput" name="required" required>
+                                <option selected value="" disabled>Choose Option....</option>
+                                <option value="true">Ya</option>
+                                <option value="false">tidak</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -71,7 +73,7 @@
                 </form>
             </div>
         </div>
-        <div class="form-question-category col-lg-7 col-md-7 col-xl-8">
+        <div class="form-question-category col-lg-7 col-md-12 col-xl-8">
             <div class="nav-align-top">
                 <ul class="nav nav-pills mb-3" role="tablist">
                     <li class="nav-item">
@@ -166,7 +168,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mt-5" id="option_input">
+        <div class="col-md-12 col-lg-4 mt-5" id="option_input">
 
         </div>
         {{-- <div class="col-md-4 mt-5">
@@ -234,14 +236,12 @@
     @push('addon-js')
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <script>
-            // new PerfectScrollbar(document.getElementById('verticalScroll'), {
-            //     wheelPropagation: false
-            // });
+            // Seleksi Tab Kategori
             $(document).ready(function() {
                 $('.vertical-example').each(function() {
                     new PerfectScrollbar(this);
                 });
-                console.log($('.vertical-example'));
+                // console.log($('.vertical-example'));
                 // Ketika nav di klik
                 $('.nav-link').click(function() {
                     // Ambil ID nav yang di klik
@@ -251,13 +251,13 @@
                         case 'survey-tab':
                             categoryID = 4;
                             break;
-                        case 'feedBack-tab':
+                        case 'feedback-tab':
                             categoryID = 5;
                             break;
                         default:
                             break;
                     }
-
+                    console.log(categoryID);
                     $('#category').val(categoryID);
                     // Simpan ID nav ke dalam web storage
                     localStorage.setItem('activeNav', navID);
@@ -269,14 +269,19 @@
                 // Jika ada, set activeNav sebagai active nav
                 if (activeNav !== null) {
                     $('#' + activeNav).tab('show');
+                    let categoryID = 4;
+                    switch (activeNav) {
+                        case 'survey-tab':
+                            categoryID = 4;
+                            break;
+                        case 'feedback-tab':
+                            categoryID = 5;
+                            break;
+                        default:
+                            break;
+                    }
+                    $('#category').val(categoryID);
                 }
-
-                // $('div.radio').each(function() {
-                //     var inputCount = $(this).find('input').length;
-                //     if (inputCount >= 5) {
-                //         $(this).find('.form-check').slice(5).remove();
-                //     }
-                // });
             });
 
             @foreach ($surveyQuestions as $question)
@@ -298,7 +303,6 @@
                     } else {
                         unActiveCard();
                         isSelectedCard = false;
-
                     }
                     widthCheck();
                 });
@@ -317,8 +321,10 @@
                         <button class="btn btn-danger open-modal" data-toggle="modal" data-target="#modal-default" onclick="questionCardButton('delete', '{{ $question->name }}')">Delete</button>
                         </div>`;
                         $(button).hide().insertAfter(this).fadeIn('slow');
+                        isSelectedCard = true;
                     } else {
                         unActiveCard();
+                        isSelectedCard = false;
                     }
                     widthCheck();
                 });
@@ -358,9 +364,10 @@
             </form>`;
                 $(".type-input option:selected").each(function() {
                     const selectedOption = $(this).text();
+                    // console.log($.inArray(selectedOption, ["checkbox", "select", "radio"]));
                     const id = $('#id').val();
 
-                    if ($.inArray(selectedOption, ["select", "checkbox", "radio"]) && id != "") {
+                    if ($.inArray(selectedOption, ["checkbox", "select", "radio"]) && id != "") {
                         $('.question-card').each(function() {
                             if (id == $(this).data('question').id && $(this).data('question')
                                 .type_input_id != 1) {
@@ -439,7 +446,7 @@
                 });
                 data.order = order;
                 data._token = '{{ csrf_token() }}';
-                console.log(data);
+                // console.log(data);
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('question.order') }}',
@@ -459,7 +466,7 @@
                 $('.option-input-card').append(fieldOptionInput());
             }
 
-            $("#vert-tabs-tab").click(function() {
+            $(".nav-pills").click(function() {
                 unActiveCard();
             });
 
@@ -478,8 +485,7 @@
                 }
             }
 
-
-
+            
             function fieldOptionInput(data) {
                 let inputGroup;
                 let id = Date.now();
@@ -491,10 +497,8 @@
                         <input type="text" class="form-control"  name="optionName[]" placeholder="Enter Option Name" required>
                         <form action="{{ route('optionInput.delete') }}" method="POST">
                             @csrf
-                            <span class="input-group-append">
-                                <input type="hidden" name="id" >
-                                <button type="submit" class="btn btn-danger" id="deleteButton"><i class='bx bxs-trash' ></i></button>
-                            </span>
+                            <input type="hidden" name="id">
+                            <button type="submit" class="btn btn-danger" id="deleteButton"><i class='bx bxs-trash' ></i></button>
                         </form>
 
                     </div>
@@ -506,10 +510,8 @@
                         <input type="text" class="form-control" id="inputOption-${data.id}" name="optionName[]" placeholder="Enter Option Name" required value="${data.name}">
                         <form action="{{ route('optionInput.delete') }}" method="POST">
                             @csrf
-                            <span class="input-group-append">
-                                <input type="hidden" name="id" value="${data.id}">
-                                <button type="submit" class="btn btn-danger" id="deleteButton-${data.id}"><i class='bx bxs-trash' ></i></button>
-                            </span>
+                            <input type="hidden" name="id" value="${data.id}">
+                            <button type="submit" class="btn btn-danger" id="deleteButton-${data.id}"><i class='bx bxs-trash' ></i></button>
                         </form>
 
                     </div>
@@ -545,6 +547,7 @@
                 $('#id').val(data.id);
                 $('#inputQuestionTitle').val(data.name);
                 $('#inputQuestionTypeInput').val(data.type_input_id).change();
+                $('#inputQuestionRequiredInput').val(data.required).change();
             }
 
             function widthCheck() {

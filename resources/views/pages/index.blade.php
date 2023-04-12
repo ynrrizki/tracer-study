@@ -25,7 +25,7 @@
                             Isi Data Alumni
                         </a>
                     @endauth
-                    <a href="#" class="btn btn-outline-secondary hover:shadow-sm">
+                    <a href="{{ route('dudi.login') }}" class="btn btn-outline-secondary hover:shadow-sm">
                         Masuk Sebagai Dudi
                     </a>
                 </div>
@@ -38,4 +38,22 @@
             </div>
         </div>
     </section>
+    @push('addon-js')
+        <script>
+            // bg-white sticky shadow-md
+            window.addEventListener("scroll", function() {
+                var nav = document.querySelector("nav");
+                var shouldToggle = window.scrollY > 0;
+                nav.classList.toggle('fixed', shouldToggle);
+                nav.classList.toggle('bg-white', shouldToggle);
+                nav.classList.toggle('shadow-md', shouldToggle);
+
+                if (window.scrollY === 0) {
+                    nav.classList.add('bg-transparent', 'absolute');
+                } else {
+                    nav.classList.remove('bg-transparent', 'absolute');
+                }
+            });
+        </script>
+    @endpush
 @endsection

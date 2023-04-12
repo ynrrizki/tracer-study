@@ -52,14 +52,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script
-        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/flatpickr/flatpickr.js">
-    </script> --}}
     <script>
-        $(".form-date").flatpickr({
-            monthSelectorType: "static",
-        });
-
         // Show/hide the modal
         $('[data-modal-toggle]').on('click', function() {
             var target = $(this).data('modal-target');
@@ -85,25 +78,14 @@
     </script>
 
     <script>
+        $(".form-date").flatpickr({
+            monthSelectorType: "static",
+        });
+
         AOS.init({
             once: true,
         });
         AOS.refreshHard(); // initialize AOS animations
-
-        // bg-white sticky shadow-md
-        window.addEventListener("scroll", function() {
-            var nav = document.querySelector("nav");
-            var shouldToggle = window.scrollY > 0;
-            nav.classList.toggle('fixed', shouldToggle);
-            nav.classList.toggle('bg-white', shouldToggle);
-            nav.classList.toggle('shadow-md', shouldToggle);
-
-            if (window.scrollY === 0) {
-                nav.classList.add('bg-transparent', 'absolute');
-            } else {
-                nav.classList.remove('bg-transparent', 'absolute');
-            }
-        });
     </script>
     @stack('addon-js')
 </body>

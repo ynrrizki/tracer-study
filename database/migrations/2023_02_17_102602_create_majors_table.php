@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('type_school_id');
             $table->string('name');
+            $table->string('expired_year')->default('NOW');
             $table->timestamps();
         });
     }

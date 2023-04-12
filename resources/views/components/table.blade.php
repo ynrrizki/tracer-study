@@ -17,21 +17,44 @@
         </thead>
         <tbody>
             @foreach ($data as $row)
-                <tr>
+                <tr
+                    class="
+                @isset($row['active'])
+                    @if (!$row['active']) table-active @endif
+                @endisset
+                ">
                     @foreach ($row as $cell)
-                        @if ($cell != $loop->first)
-                            <td>
-                                {!! $cell !!}
-                            </td>
+                        @php
+                            $lastActive = array_key_exists('active', $row);
+                            // dd($last);
+                        @endphp
+                        @if ($lastActive)
+                            @if ($cell != $loop->first && $cell != $loop->last)
+                                <td>
+                                    {!! $cell !!}
+                                </td>
+                            @endif
+                        @else
+                            @if ($cell != $loop->first)
+                                <td>
+                                    {!! $cell !!}
+                                </td>
+                            @endif
                         @endif
                     @endforeach
 
-                    @if ($canDelete || $canEdit)
+                    @if ($canDelete || $canEdit || $canShow)
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                     data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
                                 <div class="dropdown-menu">
+                                    @if ($canShow)
+                                        <a href="{{ route($show, $row[0]) }}" class="dropdown-item"><i
+                                                class="bx bx-show me-1"></i>
+                                            Show
+                                        </a>
+                                    @endif
                                     @if ($canEdit)
                                         <button type="button" class="btn-edit dropdown-item" data-bs-toggle="offcanvas"
                                             data-bs-target="#{{ $offcanvasId }}" aria-controls="offcanvasEnd"

@@ -44,7 +44,7 @@
 
     .form-control {
         @apply outline-none focus:placeholder:translate-x-1 focus:placeholder:duration-300 focus:placeholder:transition-all focus:placeholder:ease-in-out
-        w-full py-3 px-3 mt-2 mb-1 text-base leading-normal bg-white text-[#697a8d] border border-gray-200 rounded-[7px] focus:outline-1 focus:transition-all focus:duration-300;
+        w-full py-3 px-3 mt-2 mb-1 text-base leading-normal bg-white text-[#697a8d] placeholder:text-gray-400 border border-gray-200 rounded-[7px] focus:outline-1 focus:transition-all focus:duration-300;
     }
 
     [type="text"]:focus,
@@ -143,19 +143,19 @@
         @apply table-cell text-center relative;
     }
     .btn-primary {
-        @apply text-white border-solid border-2 bg-primary-btn border-primary-btn hover:bg-primary-700 rounded shadow-btn hover:-translate-y-1;
+        @apply text-white border-solid border-2 bg-primary-btn border-primary-btn hover:bg-primary-700 rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
     }
 
     .btn-danger {
-        @apply text-white border-solid border-2 bg-red-500 border-red-500 hover:bg-red-600 rounded shadow-btn hover:-translate-y-1;
+        @apply text-white border-solid border-2 bg-red-500 border-red-500 hover:bg-red-600 rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
     }
 
     .btn-warning {
-        @apply text-white border-solid border-2 bg-yellow-500 border-yellow-500 hover:border-yellow-400 hover:bg-yellow-400 rounded shadow-btn hover:-translate-y-1;
+        @apply text-white border-solid border-2 bg-yellow-500 border-yellow-500 hover:border-yellow-400 hover:bg-yellow-400 rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
     }
 
     .btn-secondary {
-        @apply text-white border-solid border-2 bg-secondary border-secondary hover:bg-secondary rounded shadow-btn hover:-translate-y-1;
+        @apply text-white border-solid border-2 bg-secondary border-secondary hover:bg-secondary rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
     }
 
     .btn-disable {
@@ -163,6 +163,6 @@
     }
 
     .btn-outline-secondary {
-        @apply text-secondary border-solid border-2 border-secondary hover:bg-secondary rounded hover:shadow-secondary duration-300 hover:text-white;
+        @apply text-secondary border-solid border-2 border-secondary hover:bg-secondary rounded hover:shadow-secondary duration-300 hover:text-white active:text-secondary active:bg-white;
     }
 }

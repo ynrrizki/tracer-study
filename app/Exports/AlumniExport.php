@@ -65,7 +65,8 @@ class AlumniExport implements FromView, ShouldAutoSize
     public function view(): View
     {
         $alumnus = User::with('personalData', 'answers')->where('role', 'ALUMNI')->get();
-        $questions = Question::orderBy('order', 'ASC')->get();
-        return view('pages.admin.exports.alumni-excel', compact('alumnus', 'questions'));
+        $survey = Question::where('category_id', 4)->orderBy('order', 'ASC')->get();
+        $feedback = Question::where('category_id', 5)->orderBy('order', 'ASC')->get();
+        return view('pages.admin.exports.alumni-excel', compact('alumnus', 'survey', 'feedback'));
     }
 }

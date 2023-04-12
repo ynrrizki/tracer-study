@@ -1,6 +1,6 @@
 <div class="mb-3 fv-plugins-icon-container">
     @isset($label)
-        <label class="form-label" for="{{ $name }}">{{ $label }}</label>
+        <label class="form-label" for="{{ $name }}">{!! $label !!}</label>
     @endisset
     @isset($type)
         @switch($type)

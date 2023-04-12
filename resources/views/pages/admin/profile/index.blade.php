@@ -73,7 +73,7 @@
     <div class="card mt-5">
         <div class="card-header">
             <h4 class="card-title">Hapus Akun</h4>
-            <p class="card-sub-title">Setelah akun Anda dihapus. semua sumber daya dan datanya akan disimpan secara
+            <p class="card-sub-title">Setelah akun Anda dihapus. semua sumber daya dan datanya akan dihapus secara
                 permanen.</p>
         </div>
         <div class="card-body">

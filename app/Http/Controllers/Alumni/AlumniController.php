@@ -15,21 +15,16 @@ use Illuminate\View\View;
 
 class AlumniController extends Controller
 {
-    // public function index(): View
-    // {
-    //     return view('pages.alumni.index');
-    // }
-
     public function index(): View
     {
-        $majors = Major::where('type_school_id', Auth::user()->type_school_id)->get();
+        // $majors = Major::where('type_school_id', Auth::user()->type_school_id)->get();
+        $majors = Major::expired()->get();
         $alumni = User::where('role', 'ALUMNI')->find(Auth::user()->id);
-        $personalData = PersonalData::with('user')->find(Auth::user()->id);
-        $questions = Question::with(['optionInputs', 'answers', 'category', 'typeInput'])->get();
+        $personalData = PersonalData::with('user')->where('user_id', Auth::user()->id)->first();
+        $questions = Question::with(['optionInputs', 'answers', 'category', 'typeInput'])->orderBy('order', 'ASC')->get();
         $answers = Answer::where('user_id', auth()->user()->id)->get();
 
         return view('pages.alumni.index', compact('alumni', 'questions', 'majors', 'personalData', 'answers'));
-        // return view('pages.alumni.index', compact('questions'));
     }
 
     public function updateAlumniSurveyAnswers(Request $request): RedirectResponse
