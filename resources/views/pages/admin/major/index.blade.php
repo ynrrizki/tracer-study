@@ -1,6 +1,45 @@
 @extends('layouts.dash')
 
 @section('content')
+    @if (session()->has('failures'))
+        <div class="alert alert-danger border border-danger alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+            <table class="table table-bordered border-danger py-4">
+                <thead>
+                    <tr>
+                        <th>Baris</th>
+                        <th>Atribut</th>
+                        <th>Error</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (session('failures') as $failure)
+                        <tr>
+                            <td>{{ $failure->row() }}</td>
+                            <td>{{ $failure->attribute() }}</td>
+                            <td>
+                                <ul>
+                                    @foreach ($failure->errors() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach ($failure->values() as $value)
+                                        <li>{{ $value }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h5 class="card-title">Daftar Alumni</h5>
@@ -29,7 +68,7 @@
                         </li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
-                                data-bs-toggle="modal" data-bs-target="#backDropModal"><i
+                                data-bs-toggle="modal" data-bs-target="#majorImportModal"><i
                                     class="bx bx-chevron-right scaleX-n1-rtl"></i>
                                 Import
                             </a>
@@ -89,12 +128,13 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal fade" id="majorImportModal" data-bs-backdrop="static" tabindex="-1">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ route('major.file-import') }}" enctype="multipart/form-data" method="POST">
+            <form class="modal-content" action="{{ route('major.file-import') }}" enctype="multipart/form-data"
+                method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="backDropModalTitle">Import Alumni</h5>
+                    <h5 class="modal-title" id="majorImportModalTitle">Import Alumni</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -106,7 +146,7 @@
                                         <th colspan="5">urutan column excel</th>
                                     </tr>
                                     <tr>
-                                        <th>Nama</th>
+                                        <th>Nama Jurusan</th>
                                         <th>Lembaga SMA/SMK</th>
                                         <th>Tahun Pergantian <br><span class="text-danger">"BOLEH DIKOSONGKAN"</span>
                                         </th>
@@ -131,72 +171,28 @@
         </div>
     </div>
 
-    <div class="modal fade" id="attachMailModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Mengirim Email Ke Alumni</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col mb-3">
-                            <input type="hidden" name="emailForSend" id="emailForSend">
-                            <label for="message" class="form-label">Sampaikan Pesan:</label>
-                            <textarea name="message" id="message" class="form-control" placeholder="message"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="submitMail btn btn-primary">Send Email</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 
 
 
 
     @push('addon-js')
+        @if (session()->has('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: "{{ session('success') }}",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#ff6a00",
+                })
+            </script>
+        @endif
         <script>
-            // $(document).on('click', '.sendMail', function() {
-            //     let user = $(this).data('user');
-            //     $('#emailForSend').val(user.email);
-            //     // $('#attachMailModal').find('.modal-title').append('Mengirim Email Ke ' + $('#emailForSend').val());
-            // });
-
-            // $(document).on('click', '.submitMail', function() {
-            //     let data = {};
-            //     data.email = $('#emailForSend').val();
-            //     data.message = $('#message').val();
-            //     data._token = '{{ csrf_token() }}';
-            //     $.ajax({
-            //         url: "{{ route('sendMail') }}",
-            //         type: 'POST',
-            //         dataType: 'JSON',
-            //         data: data,
-            //         success: function(data) {
-            //             console.log(data);
-            //             $('#attachMailModal').removeClass('fade')
-            //             $(".modal-backdrop").remove();
-            //             $('#attachMailMoal').hide();
-            //             $('.user-send').remove();
-            //         },
-            //         error: function(xhr) {
-            //             console.log(xhr.responseText);
-            //         },
-            //     })
-            // });
-
-
-
-
             $(document).ready(function() {
                 $('#myTable').DataTable();
-
+                @if ($errors->has('file'))
+                    $('#majorImportModal').modal('show');
+                @endif
                 $(document).on('click', '.btn-edit', function() {
                     let id = $(this).data('id');
                     let url_edit = "{{ route('major.edit', ':id') }}";

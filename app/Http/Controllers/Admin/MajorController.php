@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\MajorExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ExcelImportRequest;
 use App\Imports\MajorImport;
 use App\Models\Major;
 use App\Models\TypeSchool;
@@ -50,7 +51,7 @@ class MajorController extends Controller
         $data['expired_year'] = $data['expired_year'] ?? 'NOW';
         Major::create($data);
 
-        return redirect()->route('major.index');
+        return redirect()->route('major.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -81,7 +82,7 @@ class MajorController extends Controller
 
         $major->update($data);
 
-        return redirect()->route('major.index');
+        return redirect()->route('major.index')->with('success', 'Data berhasil diupdate!');
     }
 
     /**
@@ -93,13 +94,21 @@ class MajorController extends Controller
 
         $major->delete();
 
-        return redirect()->route('major.index');
+        return redirect()->route('major.index')->with('success', 'Data berhasil dihapus!');
     }
 
-    public function fileImport(Request $request)
+    public function fileImport(ExcelImportRequest $request)
     {
-        Excel::import(new MajorImport, $request->file('file')->store('temp'));
-        return back();
+        $file = $request->file('file')->store('public/import');
+        $import = new MajorImport;
+
+        try {
+            $import->import($file);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return back()->with('failures', $failures);
+        }
+        return redirect()->route('major.index')->with('success', 'Data berhasil di import!');
     }
 
     public function fileExport()

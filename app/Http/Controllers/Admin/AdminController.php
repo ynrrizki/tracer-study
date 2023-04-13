@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\AlumniExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ExcelImportRequest;
 use App\Imports\AlumniImport;
 use App\Models\Answer;
 use App\Models\OptionInput;
@@ -66,19 +67,25 @@ class AdminController extends Controller
         ));
     }
 
-    public function fileImport(Request $request)
+    public function fileImport(ExcelImportRequest $request)
     {
-        Excel::import(new AlumniImport, $request->file('file')->store('temp'));
-        return back();
+        $file = $request->file('file')->store('public/import');
+
+        $import = new AlumniImport;
+
+        try {
+            $import->import($file);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return back()->with('failures', $failures);
+        }
+        return redirect()->back()->with('notif', 'Data berhasil diimport!!');
     }
 
     public function fileExport()
     {
 
         return Excel::download(new AlumniExport, 'Alumni.xlsx', \Maatwebsite\Excel\Excel::XLSX);
-        // return Excel::download(new AlumniExport, 'alumni.csv', \Maatwebsite\Excel\Excel::CSV, [
-        //     'Content-Type' => 'text/csv',
-        // ]);
     }
 
     public function show($id)

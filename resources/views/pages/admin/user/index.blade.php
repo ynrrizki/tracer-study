@@ -5,6 +5,46 @@
         'currently_filling' => $currently_filling,
         'finished_filling' => $finished_filling,
     ])
+    @if (session()->has('failures'))
+        <div class="alert alert-danger border border-danger alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+            <table class="table table-bordered border-danger py-4">
+                <thead>
+                    <tr>
+                        <th>Baris</th>
+                        <th>Atribut</th>
+                        <th>Error</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (session('failures') as $failure)
+                        <tr>
+                            <td>{{ $failure->row() }}</td>
+                            <td>{{ $failure->attribute() }}</td>
+                            <td>
+                                <ul>
+                                    @foreach ($failure->errors() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach ($failure->values() as $value)
+                                        <li>{{ $value }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+
+
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h5 class="card-title">Daftar Alumni</h5>
@@ -33,7 +73,7 @@
                         </li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
-                                data-bs-toggle="modal" data-bs-target="#backDropModal"><i
+                                data-bs-toggle="modal" data-bs-target="#alumniImportModal"><i
                                     class="bx bx-chevron-right scaleX-n1-rtl"></i>
                                 Import
                             </a>
@@ -102,13 +142,11 @@
         </x-offcanvas>
     </div>
 
-
-
-
     <!-- Modal -->
-    <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal fade" id="alumniImportModal" data-bs-backdrop="static" tabindex="-1">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ route('alumni.file-import') }}" enctype="multipart/form-data" method="POST">
+            <form class="modal-content" action="{{ route('alumni.file-import') }}" enctype="multipart/form-data"
+                method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="backDropModalTitle">Import Alumni</h5>
@@ -126,75 +164,23 @@
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>NIK</th>
-                                        <th>Lembaga SMA/SMK</th>
-                                        <th>Tahun Lulus</th>
+                                        <th>Lembaga</th>
+                                        <th>Angkatan</th>
                                     </tr>
                                 </thead>
                             </table>
-                            {{-- <table class="table table-bordered py-4" id="myTable">
-                                <thead>
-                                    <tr>
-                                        @foreach ($headers as $header)
-                                            <th>{{ $header }}</th>
-                                        @endforeach
-                                        @if ($canDelete || $canEdit)
-                                            <th>actions</th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $row)
-                                        <tr>
-                                            @foreach ($row as $cell)
-                                                @if ($cell != $loop->first)
-                                                    <td>
-                                                        {!! $cell !!}
-                                                    </td>
-                                                @endif
-                                            @endforeach
-
-                                            @if ($canDelete || $canEdit)
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                            data-bs-toggle="dropdown"><i
-                                                                class="bx bx-dots-vertical-rounded"></i></button>
-                                                        <div class="dropdown-menu">
-                                                            @if ($canEdit)
-                                                                <button type="button" class="btn-edit dropdown-item"
-                                                                    data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#{{ $offcanvasId }}"
-                                                                    aria-controls="offcanvasEnd"
-                                                                    data-id="{{ $row[0] }}"><i
-                                                                        class="bx bx-edit-alt me-1"></i>
-                                                                    Edit
-                                                                </button>
-                                                            @endif
-                                                            @if ($canDelete)
-                                                                <form action="{{ route($delete, $row[0]) }}" method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="dropdown-item">
-                                                                        <i class="bx bx-trash me-1"></i>
-                                                                        Delete
-                                                                    </button>
-                                                                </form>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table> --}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
                             <label for="nameBackdrop" class="form-label">File Import</label>
-                            <input type="file" id="nameBackdrop" class="form-control" placeholder="Enter File"
-                                name="file">
+                            <input type="file" id="nameBackdrop" class="form-control @error('file') is-invalid @enderror"
+                                placeholder="Enter File" name="file">
+                            @error('file')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -230,12 +216,17 @@
         </div>
     </div>
 
-
-
-
-
-
     @push('addon-js')
+        @if (session()->has('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: "{{ session('success') }}",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#ff6a00",
+                })
+            </script>
+        @endif
         <script>
             $(document).on('click', '.sendMail', function() {
                 let user = $(this).data('user');
@@ -271,7 +262,9 @@
 
             $(document).ready(function() {
                 $('#myTable').DataTable();
-
+                @if ($errors->has('file'))
+                    $('#alumniImportModal').modal('show');
+                @endif
                 $(document).on('click', '.btn-edit', function() {
                     let id = $(this).data('id');
                     let url_edit = "{{ route('user.edit', ':id') }}";
