@@ -34,6 +34,12 @@
     <!-- Style -->
     @vite('resources/css/app.css')
     @stack('addon-css')
+    <style>
+        html {
+            scroll-behavior: smooth;
+
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/custom-flatpickr.css') }}">
 </head>
 

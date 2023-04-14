@@ -3,63 +3,36 @@
         <div class="container mx-auto px-4 lg:max-w-7xl flex justify-between">
             <div class="flex flex-row gap-1 items-center py-3 md:py-2">
                 <a data-aos="fade-right" href="/" class="flex items-center" aria-label="Go to home">
-                    <img class="h-14 sm:h-16 transition-all ease-out duration-1000"
+                    <img class="h-12 sm:h-14 transition-all ease-out duration-1000"
                         src="{{ asset('assets/logo/logo.png') }}" alt="Prestasi Prima">
                     <span class="hidden md:block text-xl font-bold ml-2">Sekolah Prestasi Prima</span>
                 </a>
             </div>
             <div class="flex items-center gap-3 ml-6">
-                <ul class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 lg:md:-x-8">
-                    <li class="group">
-                        <a href="/"
-                            class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold text-primary">Beranda</a>
+                <ul
+                    class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 lg:md:-x-8 navbar-nav">
+                    <li class="group nav-item">
+                        <a href="#beranda"
+                            class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold nav-link ">Beranda</a>
                         <div
                             class="h-0.5 bg-primary scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out">
                         </div>
                     </li>
-                    <li class="group">
+                    <li class="group nav-item">
                         <a href="#info"
-                            class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold text-secondary">Info</a>
+                            class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold nav-link ">Info</a>
                         <div
                             class="h-0.5 bg-primary scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out">
                         </div>
                     </li>
-                    <li class="group">
+                    <li class="group nav-item">
                         <a href="#faq"
-                            class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold text-secondary">Faq</a>
+                            class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold nav-link ">Faq</a>
                         <div
                             class="h-0.5 bg-primary scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out">
                         </div>
                     </li>
                 </ul>
-                {{-- @auth
-                <ul class="menu menu-horizontal px-1">
-                    <li tabindex="0">
-                        <a>
-                            {{ Str::before(auth()->user()->name, ' ') }}
-                            <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                viewBox="0 0 24 24">
-                                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                            </svg>
-                        </a>
-                        <ul class="p-2 bg-base-100">
-                            <li>
-                                <a href="{{ route('home') }}">Beranda</a>
-                            </li>
-                            <li>
-                                @if (auth()->user()->role == 'ALUMNI')
-                                    <a href="{{ route('alumni') }}">Profile</a>
-                                @else
-                                    <a href="{{ route('admin') }}">Dashboard</a>
-                                @endif
-                            </li>
-                            <li><a href="{{ route('logout') }}">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            @else
-                <a href="{{ route('login') }}" class="md:ml-5 btn btn-primary font-bold">Login</a>
-            @endauth --}}
                 @auth
                     <div class="relative inline-block text-left group">
                         <button type="button"
@@ -139,7 +112,7 @@
             <div class="p-6">
                 <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Pilih akun yang ingin anda masukki, agar
                     dapat terhubung dengan tracer study.</p>
-                <ul class="my-4 space-y-3">
+                <ul class="my-4 space-y-3 nav-link">
                     <li>
                         <a href="{{ route('login') }}"
                             class="flex items-center p-3 text-base font-bold text-primary rounded-lg bg-primary-50 hover:bg-primary-100 group hover:shadow">
