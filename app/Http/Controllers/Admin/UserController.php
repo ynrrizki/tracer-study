@@ -32,7 +32,7 @@ class UserController extends Controller
         $type_schools = TypeSchool::all();
         $headers = ['Status', 'Name', 'Nik', 'Email', 'Jurusan', 'Angkatan'];
         $data = [];
-        
+
         foreach ($users as $user) {
             // dd($user->whereHas('answers', fn ($query) => $query->where('fill', '>=', $questions->count()))->first());
             $data[] = [
@@ -141,9 +141,6 @@ class UserController extends Controller
 
     public function sendMail(Request $request)
     {
-        $validatedData = $request->validate([
-            'message' => ['required']
-        ]);
         $user = User::where('email', $request->email)->first();
         $dataArray = [
             'name' => $user->name,
@@ -154,7 +151,6 @@ class UserController extends Controller
         if (isset($sendToEmail) && !empty($sendToEmail) && filter_var($sendToEmail, FILTER_VALIDATE_EMAIL)) {
             Mail::to($sendToEmail)->send($send);
         }
-
 
         return response()->json(['success' => true]);
     }

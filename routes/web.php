@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Alumni\AlumniController;
 use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,11 @@ Route::get('/', function () {
     return view('pages.index');
 });
 
+// Route::get('/redis-test', function () {
+//     $redis  = Redis::incr('p');
+//     return $redis;
+// });
+
 // Auth
 Route::middleware(['guest'])->group(function () {
     Route::get('/login/alumni', [LoginController::class, 'index'])->name('login');
@@ -34,7 +40,6 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-
     // Admin Panel
     Route::middleware('isAdmin')->group(function () {
         Route::prefix('/dashboard')->group(function () {
@@ -73,7 +78,5 @@ Route::middleware('auth')->group(function () {
         });
     });
 });
-
-
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');

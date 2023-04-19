@@ -21,7 +21,6 @@ class QuestionController extends Controller
 
     public function save(Request $request)
     {
-        // dd($request->all());
         $question = Question::updateOrCreate(['id' => $request->id], [
             'category_id' => $request->category ?? 4,
             'type_input_id' => $request->type_input,
@@ -51,7 +50,6 @@ class QuestionController extends Controller
 
     public function destroy(Request $request)
     {
-        // dd($request->all());
         $question = Question::findOrFail($request->id);
         if (in_array($question->type_input_id, [2, 3, 4])) {
             $optionInput = OptionInput::where('question_id', $question->id);
@@ -59,7 +57,7 @@ class QuestionController extends Controller
         }
         $question->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function order(Request $request)

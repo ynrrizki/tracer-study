@@ -75,7 +75,7 @@
                         class="text-primary font-bold tracking-tighter leading-tight whitespace-nowrap text-3xl md:text-4 lg:text-5xl text-center md:text-left mb-6">
                         Informasi Mengenai Tracer Study
                     </h2>
-                    <p class="text-secondary text-lg text-center md:text-left mb-6">
+                    <p class="text-secondary text-lg text-justify md:text-left mb-6">
                         Tracer Study atau yang sering disebut survei alumni adalah studi mengenai lulusan lembaga
                         penyelenggara pendidikan. Hasil dari Tracer Study berupa infomasi terkait lulusan yang dapat
                         digunakan sebagai bahan evaluasi dan acuan untuk menilai mutu pendidikan dari suatu lembaga
@@ -86,40 +86,10 @@
             </div>
         </div>
     </section>
-    <section class="bg-white py-16 lg:py-24" id="faq">
+    <section class="bg-white py-16 lg:pt-24 pb-60" id="faq">
         <div class="container">
             <h1 class="font-bold text-3xl mb-6 text-secondary">FAQ Tracer Study Prestasi Prima</h1>
             <div class="grid grid-cols-1 gap-1 items-center mb-6">
-                {{-- <div class="accordion border rounded">
-                    <div class="accordion-item">
-                        <div class="accordion-title text-base cursor-pointer px-4 py-3 flex justify-between">
-                            <h3>Apa itu Tracer Study Pendidikan Vokasi</h3>
-                            <i class='bx bx-chevron-down text-xl'></i>
-                        </div>
-                        <div class="accordion-content text-gray-500 px-4 py-2"style="display: none;">
-                            <hr class="mb-5">
-                            <p>
-                                Tracer study pendidikan vokasi, selanjutnya disebut tracer study, merupakan survei untuk
-                                mengetahui aktivitas kebekerjaan (bekerja, wirausaha dan melanjutkan pendidikan),
-                                keselarasan, dan kepuasan dunia kerja terhadap lulusan pendidikan vokasi setelah satu tahun
-                                lulus dari satuan pendidikan vokasi.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <div class="accordion-title text-base cursor-pointer px-4 py-3  flex justify-between">
-                            <h3>Kapan Waktu Pengisian Tracer Study</h3>
-                            <i class='bx bx-chevron-down text-xl'></i>
-                        </div>
-                        <div class="accordion-content text-gray-500 px-4 py-2" style="display: none;">
-                            <hr class="mb-5">
-                            <p>
-                                Waktu pengisian tracer study tahun 2022 adalah mulai 5 September 2022 hingga 31 Oktober
-                                2022.
-                            </p>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="accordion border rounded">
                     <div class="accordion-item">
                         <div class="accordion-title text-base cursor-pointer px-4 py-3 flex justify-between">

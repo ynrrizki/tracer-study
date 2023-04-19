@@ -30,5 +30,15 @@ class OptionInputSeeder extends Seeder
             'question_id' => 1,
             'name'      => 'Wirausaha (Freelance/Online)',
         ]);
+
+        OptionInput::create([
+            'question_id' => 3,
+            'name' => 'Sesuai',
+        ]);
+
+        OptionInput::create([
+            'question_id' => 3,
+            'name' => 'Tidak Sesuai',
+        ]);
     }
 }

@@ -40,7 +40,7 @@ class LoginController extends Controller
             $credential['password'] = $request->nik;
             unset($credential['g-recaptcha-response']);
         }
-        if (Auth::attempt($credential, $request->remember)) {
+        if (Auth::attempt($credential, isset($request->remember) ? true : false)) {
             $request->session()->regenerate();
             $panel = null;
             if (Auth::user()->role == 'ADMIN') {
@@ -49,7 +49,8 @@ class LoginController extends Controller
             if (Auth::user()->role == 'ALUMNI') {
                 $panel = route('alumni');
             }
-            return redirect()->intended($panel)->with('notif', 'Selamat Datang ' . Auth::user()->name);
+            return redirect()->intended($panel);
+            // return redirect()->intended($panel)->with('success', 'Selamat Datang ' . Auth::user()->name);
         }
         return back()->with('notif-fail', 'Login Gagal!');
     }

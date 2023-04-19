@@ -10,71 +10,30 @@ use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class AlumniController extends Controller
 {
-    public function index(): View
+
+
+    public function index()
     {
-        // $majors = Major::where('type_school_id', Auth::user()->type_school_id)->get();
+        $alumni = User::userNow()->where('role', 'ALUMNI')->first();
+        $answers = Answer::where('user_id', $alumni->id)->select('fill', 'question_id')->get();
+        $personalData = PersonalData::where('user_id', $alumni->id)->first();
         $majors = Major::expired()->get();
-        $alumni = User::where('role', 'ALUMNI')->find(Auth::user()->id);
-        $personalData = PersonalData::with('user')->where('user_id', Auth::user()->id)->first();
-        $questions = Question::with(['optionInputs', 'answers', 'category', 'typeInput'])->orderBy('order', 'ASC')->get();
-        $answers = Answer::where('user_id', auth()->user()->id)->get();
+        $questions = Question::with('optionInputs', 'answers', 'typeInput')
+            ->orderBy('order', 'ASC')
+            ->select('id', 'name', 'required', 'category_id', 'type_input_id', 'order')
+            ->get();
+        $isFinished = $alumni->answers->count() >= Question::count() ? true : false;
 
-        return view('pages.alumni.index', compact('alumni', 'questions', 'majors', 'personalData', 'answers'));
-    }
-
-    public function updateAlumniSurveyAnswers(Request $request): RedirectResponse
-    {
-        $user = auth()->user();
-        $inputs = $request->except(['_token', '_method']);
-
-        foreach ($inputs as $question_id => $fill) {
-            if ($fill) {
-                Answer::updateOrCreate([
-                    'user_id' => $user->id,
-                    'question_id' => $question_id,
-                ], [
-                    'fill' => $fill,
-                ]);
-            }
-        }
-
-        return redirect()->back();
-    }
-
-    public function updateAlumniProfile(Request $request): RedirectResponse
-    {
-        $alumni = User::find(auth()->user()->id);
-        $personalData = PersonalData::where('user_id', auth()->user()->id)->first();
-
-
-        if ($personalData) {
-            $personalData->update([
-                'major_id' => $request->major,
-                'address' => $request->address,
-                'birth_date' => $request->birth_date,
-                'phone' => $request->phone,
-            ]);
-        } else {
-            PersonalData::create([
-                'user_id' => auth()->user()->id,
-                'major_id' => $request->major,
-                'address' => $request->address,
-                'birth_date' => $request->birth_date,
-                'phone' => $request->phone,
-            ]);
-        }
-
-        if ($request->email != $alumni->email) {
-            $alumni->update([
-                'email' => $request->email,
-            ]);
-        }
-
-        return redirect()->back();
+        return view('pages.alumni.index', compact(
+            'personalData',
+            'answers',
+            'alumni',
+            'majors',
+            'questions',
+            'isFinished'
+        ));
     }
 }

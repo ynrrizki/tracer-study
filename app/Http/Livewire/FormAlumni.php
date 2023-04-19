@@ -3,23 +3,20 @@
 namespace App\Http\Livewire;
 
 use App\Models\Answer;
-use App\Models\Major;
 use App\Models\PersonalData;
 use App\Models\Question;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class FormAlumni extends Component
 {
+    public $isFinished;
     public $questions;
     public $fill;
     public $answers;
     public $personalData;
     public $majors;
     public $alumni;
-    public $currentStep = 1;
+    public $currentStep = 0;
 
     public $email;
 
@@ -30,21 +27,12 @@ class FormAlumni extends Component
 
     public $survey = [];
 
-    protected $listeners = ['currentStepChanged'];
-
-    public function updateData($data)
-    {
-        // $this->setCurrentStep();
-    }
-
+    public $listeners = ['currentStepChanged'];
 
     public function mount()
     {
-
-        $this->currentStep = session()->get('currentStep', 1);
-        $this->email = Auth::user()->email;
-
-        // dd($this->personalData);
+        $this->currentStep = !$this->isFinished ? 1 : 0;
+        $this->email = $this->alumni->email;
 
         if ($this->personalData) {
             $this->major = $this->personalData->major_id;
@@ -53,14 +41,10 @@ class FormAlumni extends Component
             $this->phone = $this->personalData->phone;
         }
 
-        if ($this->questions) {
-            foreach ($this->questions as $question) {
-                $answer = $this->answers->where('question_id', $question->id)->first();
-                if (isset($answer->fill)) {
-                    $fill = $answer->fill;
-                    $this->survey[$question->id] = $fill;
-                }
-            }
+        if ($this->answers) {
+            $this->answers->each(function ($answer) {
+                $this->survey[$answer->question_id] = $answer->fill;
+            });
         }
     }
 
@@ -75,17 +59,10 @@ class FormAlumni extends Component
         $this->setCurrentStep($step);
     }
 
-    public function back($step)
-    {
-        $this->setCurrentStep($step);
-    }
-
     public function render()
     {
-        $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', Question::count())->count();
-
         return view('livewire.form-alumni', [
-            'finish' => $finished_filling,
+            'isFinished' => $this->isFinished,
             'questions' => $this->questions,
             'answers' => $this->answers,
             'majors' => $this->majors,
@@ -99,27 +76,26 @@ class FormAlumni extends Component
     {
 
         $this->validate([
-            'email' => 'required',
             'major' => 'required',
             'address' => 'required',
             'birth_date' => 'required',
             'phone' => 'required',
         ]);
 
-        if (isset($this->email)) {
-            $user = User::findOrFail(auth()->user()->id);
-            $user->update(['email' => $this->email]);
+        if (isset($this->email) && $this->email != $this->alumni->email) {
+            $this->validate(['email' => 'required|unique:users']);
+            $this->alumni->update(['email' => $this->email]);
         }
 
-        PersonalData::updateOrCreate(
-            ['user_id' => auth()->user()->id,],
-            [
-                'major_id' => $this->major,
-                'address' => $this->address,
-                'birth_date' => $this->birth_date,
-                'phone' => $this->phone,
-            ]
-        );
+        $personalData = PersonalData::firstOrNew(['user_id' => $this->alumni->id]);
+        $personalData->major_id = $this->major;
+        $personalData->address = $this->address;
+        $personalData->birth_date = $this->birth_date;
+        $personalData->phone = $this->phone;
+
+        if ($personalData->isDirty()) {
+            $personalData->save();
+        }
 
         $this->setCurrentStep(2);
     }
@@ -127,47 +103,114 @@ class FormAlumni extends Component
     public function secondStepSubmit()
     {
 
-        $this->validate([
-            'survey.*' => 'required',
-        ]);
-
-        // dd($this->survey);
-
-        $user = auth()->user();
-
-        foreach ($this->survey as $question_id => $fill) {
-            Answer::updateOrCreate([
-                'user_id' => $user->id,
-                'question_id' => $question_id,
-            ], [
-                'fill' => $fill,
-            ]);
-        }
+        $this->answerUpdateOrCreate();
 
         $this->setCurrentStep(3);
     }
 
     public function thirdStepSubmit()
     {
+        $this->answerUpdateOrCreate();
 
+        session()->flash('message', 'Tracer Study Telah Selesai!');
+
+        $this->isFinished = true;
+        $this->setCurrentStep(0);
+    }
+
+    protected function answerUpdateOrCreate()
+    {
         $this->validate([
             'survey.*' => 'required',
         ]);
 
-        // dd($this->survey);
-
-        $user = auth()->user();
+        $data = [];
 
         foreach ($this->survey as $question_id => $fill) {
-            Answer::updateOrCreate([
-                'user_id' => $user->id,
+            $data[] = [
+                'user_id' => $this->alumni->id,
                 'question_id' => $question_id,
-            ], [
                 'fill' => $fill,
-            ]);
+            ];
         }
 
-        // session(['message', 'Survey answers updated successfully!']);
-        session()->flash('message', 'Data Berhasil Di Simpan.');
+        Answer::upsert($data, ['user_id', 'question_id'], ['fill']);
     }
 }
+// protected function answerUpdateOrCreate()
+// {
+//     $this->validate([
+//         'survey.*' => 'required',
+//     ]);
+
+//     // foreach ($this->survey as $question_id => $fill) {
+//     //     $answer = Answer::firstOrNew(['user_id' => $this->alumni->id, 'question_id' => $question_id]);
+//     //     $answer->fill = $fill;
+//     // }
+
+//     // if ($answer->isDirty()) {
+//     //     $answer->save();
+//     // }
+
+//     foreach ($this->survey as $question_id => $fill) {
+//         Answer::updateOrCreate([
+//             'user_id' => $this->alumni->id,
+//             'question_id' => $question_id,
+//         ], [
+//             'fill' => $fill,
+//         ]);
+//     }
+// }
+
+// public function secondStepSubmit()
+    // {
+
+    //     $this->validate([
+    //         'survey.*' => 'required',
+    //     ]);
+
+    //     // dd($this->survey);
+
+    //     // $user = auth()->user();
+    //     $answer = new Answer;
+    //     foreach ($this->survey as $question_id => $fill) {
+    //         $answer = $answer->firstOrNew(['user_id' => $this->alumni->id, 'question_id' => $question_id]);
+    //         $answer->fill = $fill;
+    //         // Answer::updateOrCreate([
+    //         //     'user_id' => $this->alumni->id,
+    //         //     'question_id' => $question_id,
+    //         // ], [
+    //         //     'fill' => $fill,
+    //         // ]);
+    //     }
+
+    //     if ($answer->isDirty()) {
+    //         $answer->save();
+    //     }
+
+    //     $this->setCurrentStep(3);
+    // }
+
+    // public function thirdStepSubmit()
+    // {
+
+    //     $this->validate([
+    //         'survey.*' => 'required',
+    //     ]);
+
+    //     // dd($this->survey);
+
+    //     // $user = auth()->user();
+
+    //     foreach ($this->survey as $question_id => $fill) {
+    //         Answer::updateOrCreate([
+    //             'user_id' => $this->alumni->id,
+    //             'question_id' => $question_id,
+    //         ], [
+    //             'fill' => $fill,
+    //         ]);
+    //     }
+
+    //     // session(['message', 'Survey answers updated successfully!']);
+    //     session()->flash('message', 'Data Berhasil Di Simpan.');
+    // }

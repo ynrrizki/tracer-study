@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(TypeSchool::class);
     }
+
+    public function scopeUserNow($query)
+    {
+        return $query->where('id', auth()->user()->id);
+    }
 }

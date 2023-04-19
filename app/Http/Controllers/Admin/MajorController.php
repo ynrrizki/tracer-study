@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\MajorExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExcelImportRequest;
+use App\Http\Requests\MajorRequest;
 use App\Imports\MajorImport;
 use App\Models\Major;
 use App\Models\TypeSchool;
@@ -45,7 +46,7 @@ class MajorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MajorRequest $request)
     {
         $data = $request->only(['type_school_id', 'name', 'expired_year']);
         $data['expired_year'] = $data['expired_year'] ?? 'NOW';
@@ -75,7 +76,7 @@ class MajorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(MajorRequest $request, string $id)
     {
         $data = $request->only(['type_school_id', 'name', 'expired_year']);
         $major = Major::findOrFail($id);
@@ -113,10 +114,6 @@ class MajorController extends Controller
 
     public function fileExport()
     {
-
         return Excel::download(new MajorExport, 'Jurusan.xlsx', \Maatwebsite\Excel\Excel::XLSX);
-        // return Excel::download(new AlumniExport, 'alumni.csv', \Maatwebsite\Excel\Excel::CSV, [
-        //     'Content-Type' => 'text/csv',
-        // ]);
     }
 }

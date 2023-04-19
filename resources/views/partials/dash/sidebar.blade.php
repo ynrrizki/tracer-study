@@ -26,7 +26,7 @@
             <li class="menu-item {{ is_route('major.index', 'active') }}">
                 <a href="{{ route('major.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-blanket"></i>
-                    <div data-i18n="Manajemen Alumni">Manajemen Jurusan</div>
+                    <div data-i18n="Manajemen Jurusan">Manajemen Jurusan</div>
                 </a>
             </li>
             {{-- <li class="menu-item">

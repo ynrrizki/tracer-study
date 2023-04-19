@@ -5,20 +5,6 @@
     @push('addon-css')
         @livewireStyles
     @endpush
-    {{-- <div class="min-h-screen w-full bg-primary-50">
-        <div class="container min-h-screen flex flex-col items-center">
-            <div class="row mb-12">
-                @livewire('form-alumni', [
-                    'answers' => $answers,
-                    'personalData' => $personalData,
-                    'alumni' => $alumni,
-                    'majors' => $majors,
-                    'questions' => $questions,
-                ])
-            </div>
-        </div>
-    </div> --}}
-    {{-- <div class="min-h-screen w-full bg-primary-50"> --}}
     <section class="container p-4 lg:max-w-7xl">
         <div class="row mb-12">
             @livewire('form-alumni', [
@@ -27,6 +13,7 @@
                 'alumni' => $alumni,
                 'majors' => $majors,
                 'questions' => $questions,
+                'isFinished' => $isFinished,
             ])
         </div>
     </section>

@@ -485,7 +485,7 @@
                 }
             }
 
-            
+
             function fieldOptionInput(data) {
                 let inputGroup;
                 let id = Date.now();
@@ -534,6 +534,7 @@
                 $('#id').val("");
                 $('#inputQuestionTitle').val("");
                 $('#inputQuestionTypeInput').val("").change();
+                $('#inputQuestionRequiredInput').val("").change();
                 widthCheck();
             }
 

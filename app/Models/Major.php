@@ -10,6 +10,7 @@ class Major extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'type_school_id', 'expired_year'];
+    protected $with = ['typeSchool'];
 
     public function personalData()
     {

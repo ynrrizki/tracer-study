@@ -16,7 +16,7 @@ class IsAlumni
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role !== 'ALUMNI') return redirect('/');
+        if (!is_alumni()) return redirect('/');
         return $next($request);
     }
 }

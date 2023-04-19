@@ -66,7 +66,7 @@
                     </div>
                 @else
                     {{-- <a href="{{ route('alumni.login') }}" class="md:ml-5 btn btn-primary font-bold">Login</a> --}}
-                    <button type="button" data-modal-target="crypto-modal" data-modal-toggle="crypto-modal"
+                    <button type="button" data-modal-target="login-modal" data-modal-toggle="login-modal"
                         class="md:ml-5 btn btn-primary font-bold">Login</button>
                 @endauth
             </div>
@@ -84,7 +84,7 @@
     </div>
 </div> --}}
 <!-- Main modal -->
-<div id="crypto-modal" tabindex="-1" aria-hidden="true"
+<div id="login-modal" tabindex="-1" aria-hidden="true"
     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full transition-all duration-1000">
     <div class="relative w-full h-full max-w-md md:h-auto">
         <!-- Backdrop blur -->
@@ -93,7 +93,7 @@
         <div class="relative bg-white rounded-lg shadow-xl transition-all duration-1000">
             <button type="button"
                 class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-primary-200 hover:text-primary-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                data-modal-hide="crypto-modal">
+                data-modal-hide="login-modal">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -108,6 +108,9 @@
                     Ingin Masuk Sebagai Apa?
                 </h3>
             </div>
+            <div class="px-6">
+                <hr>
+            </div>
             <!-- Modal body -->
             <div class="p-6">
                 <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Pilih akun yang ingin anda masukki, agar
@@ -120,7 +123,7 @@
                             <span class="flex-1 ml-3 whitespace-nowrap">Sebagai
                                 Alumni</span>
                             <span
-                                class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded">Alumni
+                                class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded">
                                 Prestasi Prima</span>
                         </a>
                     </li>
