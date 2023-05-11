@@ -8,8 +8,6 @@ use App\Models\Major;
 use App\Models\PersonalData;
 use App\Models\Question;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class AlumniController extends Controller
 {
