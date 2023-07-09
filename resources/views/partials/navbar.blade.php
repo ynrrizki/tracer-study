@@ -1,6 +1,6 @@
 @if ($using)
-    <nav class="w-full text-secondary bg-transparent absolute top-0 z-40 pt-2 ease-in duration-500">
-        <div class="container mx-auto px-4 lg:max-w-7xl flex justify-between">
+    <nav class="w-full text-secondary bg-transparent top-0 z-40 pt-2 ease-in duration-500">
+        <div class="container mx-auto px-4 max-w-7xl flex justify-between">
             <div class="flex flex-row gap-1 items-center py-3 md:py-2">
                 <a data-aos="fade-right" href="/" class="flex items-center" aria-label="Go to home">
                     <img class="h-12 sm:h-14 transition-all ease-out duration-1000"
@@ -28,6 +28,16 @@
                     <li class="group nav-item">
                         <a href="#faq"
                             class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold nav-link ">Faq</a>
+                        <div
+                            class="h-0.5 bg-primary scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out">
+                        </div>
+                    </li>
+                    <li class="group nav-item">
+                        <a href="#loker"
+                            class="hidden md:inline-flex items-center gap-1 px-3 py-2 rounded-lg font-bold nav-link ">
+                            Info
+                            Loker
+                        </a>
                         <div
                             class="h-0.5 bg-primary scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out">
                         </div>

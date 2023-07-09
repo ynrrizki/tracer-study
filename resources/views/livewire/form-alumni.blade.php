@@ -29,14 +29,14 @@
             @endif
             <div class="stepwizard-row">
                 <div class="stepwizard-step">
-                    <button type="button" wire:click="back(1)"
+                    <button type="button" wire:click="currentStepChanged(1)"
                         class="btn {{ $currentStep >= 1 || $currentStep == 0 ? 'btn-primary' : 'btn-disable' }} rounded-full">1</button>
                     <p class="mt-2 {{ $currentStep >= 1 || $currentStep == 0 ? 'text-primary' : 'text-gray-600' }}">
                         Data
                         Umum</p>
                 </div>
                 <div class="stepwizard-step">
-                    <button type="button" wire:click="back(2)"
+                    <button type="button" wire:click="currentStepChanged(2)"
                         class="btn {{ $currentStep >= 2 || $currentStep == 0 ? 'btn-primary' : 'btn-disable cursor-default' }} rounded-full"
                         {{ $currentStep >= 2 || $currentStep == 0 ? '' : 'disabled' }}>2</button>
                     <p class="mt-2 {{ $currentStep >= 2 || $currentStep == 0 ? 'text-primary' : 'text-gray-600' }}">
@@ -151,7 +151,7 @@
                         @enderror
                     </div>
                     <div class="flex mt-10 justify-end">
-                        <button type="submit" class="group btn btn-active btn-primary text-white">
+                        <button type="submit" class="group btn btn-active btn-primary text-white w-full xs:w-auto">
                             <span class="sm:inline-block sm:mr-1 align-middle">Lanjut</span>
                             <i class="bx bx-chevron-right bx-sm me-sm-n2 group-hover:animate-pulse"></i>
                         </button>
@@ -197,12 +197,13 @@
                             ])
                         @endif
                     @endforeach
-                    <div class="flex mt-10 justify-between">
-                        <div class="btn btn-secondary mr-4 group" wire:click="currentStepChanged(1)">
+                    <div class="flex mt-10 justify-between flex-col-reverse xs:flex-row gap-5">
+                        <div class="btn btn-outline-secondary xs:btn-secondary mr-4 group w-full xs:w-auto"
+                            wire:click="currentStepChanged(1)">
                             <i class="bx bx-chevron-left bx-sm me-sm-n2 group-hover:animate-pulse"></i>
                             <span class="sm:inline-block sm:mr-1 align-middle">Kembali</span>
                         </div>
-                        <button type="submit" class="group btn btn-active btn-primary text-white">
+                        <button type="submit" class="group btn btn-active btn-primary text-white w-full xs:w-auto">
                             <span class="sm:inline-block sm:mr-1 align-middle">Dikit Lagi</span>
                             <i class="bx bx-chevron-right bx-sm me-sm-n2 group-hover:animate-pulse"></i>
                         </button>
@@ -244,12 +245,13 @@
                             ])
                         @endif
                     @endforeach
-                    <div class="flex justify-between mt-10">
-                        <div class="btn btn-secondary mr-4 group" wire:click="currentStepChanged(2)">
+                    <div class="flex justify-between mt-10 flex-col-reverse xs:flex-row gap-5">
+                        <div class="btn btn-outline-secondary xs:btn-secondary mr-4 group w-full xs:w-auto"
+                            wire:click="currentStepChanged(2)">
                             <i class="bx bx-chevron-left bx-sm me-sm-n2 group-hover:animate-pulse"></i>
                             <span class="sm:inline-block sm:mr-1 align-middle">Kembali</span>
                         </div>
-                        <button type="submit" class="group btn btn-active btn-primary text-white">
+                        <button type="submit" class="group btn btn-active btn-primary text-white w-full xs:w-auto">
                             <span class="sm:inline-block sm:mr-1 align-middle">Yak Nice!</span>
                             <i class="bx bx-chevron-right bx-sm me-sm-n2 group-hover:animate-pulse"></i>
                         </button>
@@ -258,14 +260,15 @@
             @endif
         </div>
     </div>
-    <div class="row mt-12 justify-end flex-row-reverse px-14">
+    <div class="row mt-12 justify-center xs:justify-end flex-col xs:flex-row-reverse px-14 gap-5">
         @if ($currentStep == 0)
-            <button type="button" class="btn btn-warning ml-10" wire:click="currentStepChanged(1)">
+            <button type="button" class="btn btn-warning md:ml-10 w-full xs:w-auto"
+                wire:click="currentStepChanged(1)">
                 <span>Update Data Lagi</span>
                 <i class='ml-1 bx bx-refresh text-xl'></i>
             </button>
         @endif
-        <a href="{{ route('logout') }}" class="btn btn-danger">
+        <a href="{{ route('logout') }}" class="btn btn-danger w-full xs:w-auto">
             Logout
         </a>
     </div>

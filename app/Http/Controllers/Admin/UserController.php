@@ -23,24 +23,25 @@ class UserController extends Controller
      */
     public function index(): View
     {
+        // $alumni = User::where('role', 'ALUMNI');
         $questions = Question::all();
+        $type_schools = TypeSchool::all();
         // dd($questions->count());
         $currently_filling = User::where('role', 'ALUMNI')->has('personalData', '>', 0)->has('answers', '<', 3)->count();
         $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', $questions->count())->count();
 
         $users = User::where('role', 'ALUMNI')->get();
-        $type_schools = TypeSchool::all();
         $headers = ['Status', 'Name', 'Nik', 'Email', 'Jurusan', 'Angkatan'];
         $data = [];
 
         foreach ($users as $user) {
-            // dd($user->whereHas('answers', fn ($query) => $query->where('fill', '>=', $questions->count()))->first());
             $data[] = [
                 $user->id,
                 $user->answers->count() >= $questions->count() ? '<span class="badge bg-label-success me-1">Completed</span>' : '<span class="badge bg-label-warning me-1">Pending</span>',
                 $user->name,
                 $user->nik,
-                "<a data-user='$user' data-bs-toggle='modal' data-bs-target='#attachMailModal' class='btn btn-label-dark sendMail'>" . $user->email . "</a>",
+                // "<a data-user='$user' data-bs-toggle='modal' data-bs-target='#attachMailModal' class='btn btn-label-dark sendMail'>" . $user->email . "</a>",
+                $user->email,
                 $user->personalData->major->name ?? '-',
                 $user->grade_at,
                 'active' => $user->answers->count() >= $questions->count() ? true : false,

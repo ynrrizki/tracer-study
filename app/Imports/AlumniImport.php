@@ -42,7 +42,7 @@ class AlumniImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'nama' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required',
             'nik' => 'required|unique:users',
             'lembaga' => 'required',
             'angkatan' => 'required',

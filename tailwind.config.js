@@ -52,14 +52,13 @@ module.exports = {
                 sans: ['Public Sans', 'sans-serif'],
             },
         },
-        container: {
-            center: true,
-            padding: "1rem",
-            screens: {
-                lg: "1124px",
-                xl: "1124px",
-                "2xl": "1124px",
-            },
+        screens: {
+            xs: "480px",
+            ss: "620px",
+            sm: "768px",
+            md: "1060px",
+            lg: "1200px",
+            xl: "1700px",
         },
     },
     plugins: [

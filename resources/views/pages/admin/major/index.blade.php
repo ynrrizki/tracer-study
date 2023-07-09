@@ -90,7 +90,13 @@
 
         <div class="card-body">
             <div class="table-responsive text-nowrap">
-                <x-table :headers="$headers" :data="$data" :delete="'major.destroy'" :offcanvasId="'offcanvasJurusan'" />
+                @php
+                    $delete = 'major.destroy';
+                    $offcanvasId = 'offcanvasJurusan';
+                    $canEdit = true;
+                    $canDelete = true;
+                @endphp
+                <x-table :headers="$headers" :data="$data" :delete="$delete" :offcanvasId="$offcanvasId" :canEdit="$canEdit" :canDelete="$canDelete" />
             </div>
         </div>
         <!-- Offcanvas to form jurusan -->

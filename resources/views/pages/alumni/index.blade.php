@@ -5,7 +5,7 @@
     @push('addon-css')
         @livewireStyles
     @endpush
-    <section class="container p-4 lg:max-w-7xl">
+    <section class="container p-4 max-w-7xl mx-auto">
         <div class="row mb-12">
             @livewire('form-alumni', [
                 'answers' => $answers,

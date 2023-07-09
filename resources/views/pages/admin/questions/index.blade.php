@@ -169,69 +169,57 @@
             </div>
         </div>
         <div class="col-md-12 col-lg-4 mt-5" id="option_input">
-
         </div>
-        {{-- <div class="col-md-4 mt-5">
-            <form action="http://127.0.0.1:8000/dashboard/questions/options-input/save" method="POST" id="form-add-option">
-                <input type="hidden" name="_token" value="sBHCxbc0Mu8rmTDs86GXNLkOBdkFPSLSK3bn7ttO">
-
-                <div class="card d-flex justify-content-between">
-                    <input type="hidden" id="questionId" name="question_id" value="1">
-                    <div class="option-input-card card-body">
-                        <div class="card-title d-flex justify-content-between">
-                            <div class="card-action-title">Add Option</div>
-                            <div class="card-action-element">
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item">
-                                        <a href="javascript:void(0);" class="card-collapsible"><button type="button"
-                                                class="btn btn-secondary"><i class='bx bx-plus'></i></button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputOption">Option</label>
-
-                            <div class="input-group mb-3">
-                                <input type="hidden" id="optionInputId-1" name="typeInputId[]" value="1">
-                                <input type="text" class="form-control" id="inputOption-1" name="optionName[]"
-                                    placeholder="Enter Option Name" value="Bekerja" required="">
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <input type="hidden" id="optionInputId-2" name="typeInputId[]" value="2">
-                                <input type="text" class="form-control" id="inputOption-1" name="optionName[]"
-                                    placeholder="Enter Option Name" value="Kuliah" required="">
-                            </div>
-
-                            <div class="input-group mb-3" id="inputGroup-3">
-                                <input type="hidden" id="optionInputId-3" name="typeInputId[]" value="3">
-                                <input type="text" class="form-control" id="inputOption-3" name="optionName[]"
-                                    placeholder="Enter Option Name" required="" value="Wirausaha (Freelance/Online)">
-                                <form action="http://127.0.0.1:8000/dashboard/questions/options-input/delete"
-                                    method="POST">
-                                    <input type="hidden" name="_token"
-                                        value="sBHCxbc0Mu8rmTDs86GXNLkOBdkFPSLSK3bn7ttO">
-                                    <span class="input-group-append">
-                                        <input type="hidden" name="id" value="3">
-                                        <button type="submit" class="btn btn-danger" id="deleteButton-3"><i
-                                                class="bx bxs-trash"></i></button>
-                                    </span>
-                                </form>
-
-                            </div>
-                        </div>
+    </div>
+    <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure delete this question?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="question_id">Question Title</label>
+                        <textarea class="form-control" id="question_title" disabled></textarea>
                     </div>
                 </div>
+                <form action="{{ route('question.delete') }}" method="POST">
+                    @csrf
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" id="question_id">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-                <div class="form-group mt-3">
-                    <button type="reset" class="btn btn-warning">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Confirm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
                 </div>
-            </form>
-        </div> --}}
-
+                <div class="modal-body">
+                    <p>Are you sure delete this question?</p>
+                </div>
+                <form action="{{ route('question.delete') }}" method="POST">
+                    @csrf
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" id="delete_question_id">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
     @push('addon-js')
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -294,7 +282,7 @@
                         activeCard(this, data);
                         let button = `<div class="form-group mb-5 question-card-button">
                         <button type="button" class="btn btn-warning question-card-cancel" onclick="questionCardButton('cancel', {{ $questionId }})">Cancel</button>
-                        <button class="btn btn-danger open-modal" data-toggle="modal" data-target="#modal-default" onclick="questionCardButton('delete', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Delete</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="questionCardButton('delete', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Delete</button>
                         </div>
                         `;
                         $(button).hide().insertAfter(this).fadeIn('slow');
@@ -318,7 +306,7 @@
                         activeCard(this, data);
                         let button = `<div class="form-group mb-5 question-card-button">
                         <button type="button" class="btn btn-warning question-card-cancel" onclick="questionCardButton('cancel')">Cancel</button>
-                        <button class="btn btn-danger open-modal" data-toggle="modal" data-target="#modal-default" onclick="questionCardButton('delete', '{{ $question->name }}')">Delete</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"  onclick="questionCardButton('delete', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Delete</button>
                         </div>`;
                         $(button).hide().insertAfter(this).fadeIn('slow');
                         isSelectedCard = true;
@@ -477,8 +465,8 @@
                         unActiveCard();
                         break;
                     case 'delete':
-                        $('#question_title').val(data.name);
-                        $('#question_id').val(data.id);
+                        $('#delete_question_id').val(data.id);
+                        console.log(data.id);
                         break;
                     default:
                         break;
@@ -594,186 +582,3 @@
         </script>
     @endpush
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{{-- <div class="col-md-3">
-        <div class="sticky-top mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Question Categories</h4>
-                </div>
-                <div class="card-body">
-                    <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist"
-                        aria-orientation="vertical">
-                        <a class="nav-link active" id="vert-tabs-survey-tab" data-toggle="pill" href="#vert-tabs-survey"
-                            role="tab" aria-controls="vert-tabs-survey" aria-selected="true">Survey</a>
-                        <a class="nav-link" id="vert-tabs-feedBack-tab" data-toggle="pill" href="#vert-tabs-feedBack"
-                            role="tab" aria-controls="vert-tabs-feedBack" aria-selected="false">FeedBack</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Question</h3>
-                </div>
-                <form action="{{ route('question.save') }}" method="POST" id="form-question">
-                    @csrf
-                    <input type="hidden" name="id" id="id">
-                    <input type="hidden" name="category" value="4" id="category">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="inputQuestionTitle">Question Title</label>
-                            <input type="text" class="form-control" id="inputQuestionTitle" placeholder="Enter title"
-                                name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Type Input</label>
-                            <select class="form-control type-input" id="inputQuestionTypeInput" name="type_input" required>
-                                <option selected value="" disabled>Choose Option....</option>
-                                @foreach ($typeInputs as $typeInput)
-                                    @if ($typeInput->name != 'date' && $typeInput->name != 'checkbox' && $typeInput->name != 'select')
-                                        <option value="{{ $typeInput->id }}">{{ $typeInput->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-default float-right" onclick="unActiveCard()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-5">
-        <div class="tab-content" id="vert-tabs-tabContent">
-            <div class="tab-pane text-left fade active show" id="vert-tabs-survey" role="tabpanel"
-                aria-labelledby="vert-tabs-survey-tab">
-                @foreach ($surveyQuestions as $question)
-                    <div class="question-card card" id="question-card-{{ $question->id }}"
-                        data-question="{{ json_encode($question) }}">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-9">
-                                    @includeWhen(
-                                        $question->typeInput->name == 'text',
-                                        'partials.dash.question.text',
-                                        ['question' => $question]
-                                    )
-                                    @includeWhen(
-                                        $question->typeInput->name == 'radio',
-                                        'partials.dash.question.radio',
-                                        ['question' => $question]
-                                    )
-                                    @includeWhen(
-                                        $question->typeInput->name == 'select',
-                                        'partials.dash.question.select',
-                                        [['question' => $question]]
-                                    )
-                                    @includeWhen(
-                                        $question->typeInput->name == 'date',
-                                        'partials.dash.question.date',
-                                        ['question' => $question]
-                                    )
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="tab-pane text-left fade" id="vert-tabs-feedBack" role="tabpanel"
-                aria-labelledby="vert-tabs-feedBack-tab">
-                @foreach ($feedBackQuestions as $question)
-                    <div class="question-card card" id="question-card-{{ $question->id }}"
-                        data-question="{{ json_encode($question) }}">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-9">
-                                    @includeWhen(
-                                        $question->typeInput->name == 'text',
-                                        'partials.dash.question.text',
-                                        ['question' => $question]
-                                    )
-                                    @includeWhen(
-                                        $question->typeInput->name == 'radio',
-                                        'partials.dash.question.radio',
-                                        ['question' => $question]
-                                    )
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4" id="option_input">
-    </div>
-
-    <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Are you sure delete this question?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="question_id">Question Title</label>
-                        <textarea class="form-control" id="question_title" disabled></textarea>
-                    </div>
-                </div>
-                <form action="{{ route('question.delete') }}" method="POST">
-                    @csrf
-                    <div class="modal-footer">
-                        <input type="hidden" name="id" id="question_id">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Yes</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-
-    </div> --}}

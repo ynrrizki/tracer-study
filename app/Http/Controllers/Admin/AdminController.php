@@ -29,8 +29,19 @@ class AdminController extends Controller
             ->select('id', 'name')
             ->get();
 
-        $currently_filling = User::where('role', 'ALUMNI')->has('personalData', '>', 0)->has('answers', '<', Answer::count())->count();
-        $finished_filling = User::where('role', 'ALUMNI')->has('answers', '>=', Answer::count())->count();
+        // Menghitung jumlah total baris dalam tabel `answers` dan menyimpannya dalam variabel
+        $totalAnswers = Answer::count();
+
+        // Menggunakan variabel $totalAnswers di beberapa bagian kode
+        $currently_filling = User::where('role', 'ALUMNI')
+            ->has('personalData', '>', 0)
+            ->has('answers', '<', $totalAnswers)
+            ->count();
+
+        $finished_filling = User::where('role', 'ALUMNI')
+            ->has('answers', '>=', $totalAnswers)
+            ->count();
+
 
         $survey_question = Question::where('category_id', 4)->count();
         $feedback_question = Question::where('category_id', 5)->count();

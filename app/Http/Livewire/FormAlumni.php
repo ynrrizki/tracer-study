@@ -124,17 +124,12 @@ class FormAlumni extends Component
             'survey.*' => 'required',
         ]);
 
-        $data = [];
-
         foreach ($this->survey as $question_id => $fill) {
-            $data[] = [
-                'user_id' => $this->alumni->id,
-                'question_id' => $question_id,
-                'fill' => $fill,
-            ];
+            Answer::updateOrCreate(
+                ['user_id' => $this->alumni->id, 'question_id' => $question_id],
+                ['fill' => $fill]
+            );
         }
-
-        Answer::upsert($data, ['user_id', 'question_id'], ['fill']);
     }
 }
 // protected function answerUpdateOrCreate()

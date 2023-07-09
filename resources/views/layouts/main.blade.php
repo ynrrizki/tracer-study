@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
     <title>Tracer Study Prestasi Prima</title>
 
@@ -27,6 +27,9 @@
     <!-- Vendor -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    {{-- <link id="EmbedSocialIFrameLightboxCSS" rel="stylesheet"
+        href="https://embedsocial.com/cdn/iframe-lightbox.min.css?v=2.0"> --}}
+    {{-- <link id="EmbedSocialNewPopupCSS" rel="stylesheet" href="https://embedsocial.com/cdn/universal-popup.css"> --}}
     {{-- <link rel="stylesheet" href="sweetalert2.min.css"> --}}
     {{-- <link rel="stylesheet"
         href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/flatpickr/flatpickr.css"> --}}
@@ -35,41 +38,38 @@
     @vite('resources/css/app.css')
     @stack('addon-css')
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
         body.preloader-site {
             overflow: hidden;
         }
 
         .preloader-wrapper {
-            height: 100%;
+            background-color: white;
+            height: 100vh;
+            /* Set the height to 100% of the viewport height */
             width: 100%;
-            background: #FFF;
+            /* Set the width to 100% */
+            display: flex;
+            /* Use flexbox to center the preloader */
+            align-items: center;
+            /* Center vertically */
+            justify-content: center;
+            /* Center horizontally */
             position: fixed;
-            top: 0;
-            left: 0;
             z-index: 9999999;
         }
 
         .preloader-wrapper .preloader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
             -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
-            width: 120px;
         }
     </style>
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/custom-flatpickr.css') }}">
 </head>
 
 <body class="font-sans {{ $bgBody ?? '' }}">
-
     <div class="preloader-wrapper">
         <div class="preloader">
-            <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin fill-primary" viewBox="0 0 100 101"
+            <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin fill-primary" viewBox="0 0 100 101"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -127,7 +127,7 @@
 
     <script>
         $(".form-date").flatpickr({
-            monthSelectorType: "static",
+            // monthSelectorType: "static",
         });
 
         AOS.init({
@@ -135,6 +135,8 @@
         });
         AOS.refreshHard(); // initialize AOS animations
     </script>
+    {{-- <script id="EmbedSocialIFrame" src="https://embedsocial.com/cdn/iframe.js"></script> --}}
+    {{-- <script id="EmbedSocialNewPopup" src="https://embedsocial.com/cdn/universal-popup.js"></script> --}}
     @stack('addon-js')
 </body>
 

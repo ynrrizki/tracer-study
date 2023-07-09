@@ -7,7 +7,7 @@
             <div class="card mb-4">
                 <h3 class="card-header">{{ $alumni->name }}</h3>
                 <div class="card-body">
-                    <p class="mb-0">
+                    {{-- <p class="mb-0">
                         <strong class="mr-1">NIK :</strong>{{ $alumni->nik }}
                     </p>
                     <p class="mb-0">
@@ -25,7 +25,36 @@
                         <strong class="pr-1">
                             Tanggal Lahir:
                         </strong>{{ $alumni->personalData->birth_date ?? '-' }}
-                    </p>
+                    </p> --}}
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>NIK</strong></td>
+                                <td><strong> : </strong></td>
+                                <td>{{ $alumni->nik }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jurusan</strong></td>
+                                <td><strong> : </strong></td>
+                                <td>{{ $alumni->personalData->major->name ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Alamat</strong></td>
+                                <td><strong> : </strong></td>
+                                <td>{{ $alumni->personalData->address ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>No HP</strong></td>
+                                <td><strong> : </strong></td>
+                                <td>{{ $alumni->personalData->phone ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tanggal Lahir</strong></td>
+                                <td><strong> : </strong></td>
+                                <td>{{ $alumni->personalData->birth_date ?? '-' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <!-- Account -->
                 <hr class="my-0">

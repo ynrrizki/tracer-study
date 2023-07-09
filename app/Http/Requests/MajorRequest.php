@@ -24,7 +24,6 @@ class MajorRequest extends FormRequest
         return [
             'type_school_id' => 'required',
             'name' => 'required',
-            'expired_year' => 'required',
         ];
     }
 }

@@ -95,8 +95,15 @@
 
         <div class="card-body">
             <div class="table-responsive text-nowrap">
-                <x-table :headers="$headers" :data="$data" :delete="'user.destroy'" :offcanvasId="'offcanvasAlumni'" :canShow="true"
-                    :show="'user.show'" />
+                @php
+                    $delete = 'user.destroy';
+                    $show = 'user.show';
+                    $canShow = true;
+                    $canDelete = false;
+                    $offcanvasId = 'offcanvasAlumni';
+                @endphp
+                <x-table :headers="$headers" :data="$data" :delete="$delete" :offcanvasId="$offcanvasId" :canShow="$canShow"
+                    :show="$show" :canDelete="$canDelete" />
             </div>
         </div>
         <!-- Offcanvas to form alumni -->
