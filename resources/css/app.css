@@ -1,3 +1,168 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    .btn {
+        @apply cursor-pointer inline-flex items-center justify-center py-2 px-4 duration-300;
+    }
+
+    .stepwizard {
+        @apply table w-full relative;
+    }
+
+    .card {
+        @apply relative flex flex-col min-w-0 break-words bg-white bg-clip-border rounded;
+    }
+
+    .row {
+        @apply flex flex-wrap mr-[-15px] ml-[-15px];
+    }
+
+    .col-12 {
+        @apply flex-[0_0_100%] max-w-full;
+    }
+}
+
+@layer components {
+    select.is-invalid,
+    input.is-invalid {
+        @apply border border-solid border-red-400;
+    }
+
+    .invalid-feedback {
+        @apply text-red-400 text-sm;
+    }
+
+    .label {
+        @apply font-semibold text-[#566a7f] uppercase text-[0.75rem];
+    }
+
+    .form-check {
+        @apply relative block mb-2;
+    }
+
+    .form-control {
+        @apply outline-none focus:placeholder:translate-x-1 focus:placeholder:duration-300 focus:placeholder:transition-all focus:placeholder:ease-in-out
+        w-full py-3 px-3 mt-2 mb-1 text-base leading-normal bg-white text-[#697a8d] placeholder:text-gray-400 border border-gray-200 rounded-[7px] focus:outline-1 focus:transition-all focus:duration-300;
+    }
+
+    [type="text"]:focus,
+    [type="email"]:focus,
+    [type="url"]:focus,
+    [type="password"]:focus,
+    [type="number"]:focus,
+    [type="date"]:focus,
+    [type="datetime-local"]:focus,
+    [type="month"]:focus,
+    [type="search"]:focus,
+    [type="tel"]:focus,
+    [type="time"]:focus,
+    [type="week"]:focus,
+    [multiple],
+    textarea:focus,
+    select:focus {
+        @apply border-primary ring-0 outline-none;
+    }
+
+    [type="checkbox"]:checked,
+    [type="radio"]:checked {
+        @apply border-primary ring-0 outline-1 outline-offset-2 ring-offset-primary-200 bg-primary-300;
+    }
+    [type="checkbox"]:active,
+    [type="radio"]:active {
+        @apply border-primary ring-0 outline-1 outline-offset-2 ring-offset-primary-200 bg-primary-300 ring-primary-btn;
+    }
+
+    [type="checkbox"]:focus,
+    [type="radio"]:focus {
+        @apply border-primary ring-0 outline-1 outline-offset-2 ring-offset-primary-200 bg-primary-300 ring-primary-btn;
+    }
+    [type="checkbox"],
+    [type="radio"] {
+        @apply text-primary-btn;
+    }
+
+    /*
+        type="checkbox"]:checked, [type="radio"]:checked {
+    --tw-border-opacity: 1;
+    border-color: rgb(255 130 67 / var(--tw-border-opacity));
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+    */
+
+    .form-checkbox {
+        @apply rounded;
+    }
+    .form-checkbox:focus {
+        @apply border-primary ring-0 outline-none;
+    }
+    .form-control:disabled {
+        @apply bg-gray-100;
+    }
+
+    /* .form-select {
+        @apply block mt-2 border rounded-[7px] py-3 px-3 focus:outline-primary w-full;
+    } */
+
+    .form-select:focus {
+        @apply border-primary ring-0 outline-none;
+    }
+
+    .form-select {
+        @apply block mt-2 w-full text-[0.9375rem] font-normal leading-[1.53] text-[#697a8d] bg-white border appearance-none py-3 px-3 rounded-md border-solid bg-select border-[#d9dee3] bg-no-repeat bg-[right_0.875rem_center] bg-[length:17px_12px] transition-all;
+    }
+
+    .card .card-body {
+        @apply pt-5 pb-5;
+    }
+
+    .card-body {
+        @apply flex-auto min-h-[1px] p-5;
+    }
+
+    .logo-shadow {
+        @apply shadow-btn;
+    }
+
+    .stepwizard-row {
+        @apply table-row before:absolute before:content-["_"] before:w-full before:h-px before:bg-[#ccc] before:top-3.5 before:bottom-0;
+    }
+    .stepwizard-step button[disabled] {
+        @apply opacity-100;
+        filter: alpha(opacity=100) !important;
+    }
+    .stepwizard-row:before {
+        @apply -order-none;
+    }
+    .stepwizard-step {
+        @apply table-cell text-center relative;
+    }
+    .btn-primary {
+        @apply text-white border-solid border-2 bg-primary-btn border-primary-btn hover:bg-primary-700 rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
+    }
+
+    .btn-danger {
+        @apply text-white border-solid border-2 bg-red-500 border-red-500 hover:bg-red-600 rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
+    }
+
+    .btn-warning {
+        @apply text-white border-solid border-2 bg-yellow-500 border-yellow-500 hover:border-yellow-400 hover:bg-yellow-400 rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
+    }
+
+    .btn-secondary {
+        @apply text-white border-solid border-2 bg-secondary border-secondary hover:bg-secondary rounded shadow-btn active:-translate-y-0 hover:-translate-y-1;
+    }
+
+    .btn-disable {
+        @apply text-white border-solid border-2 bg-gray-400 border-gray-400 rounded;
+    }
+
+    .btn-outline-secondary {
+        @apply text-secondary border-solid border-2 border-secondary hover:bg-secondary rounded hover:shadow-secondary duration-300 hover:text-white active:text-secondary active:bg-white;
+    }
+}

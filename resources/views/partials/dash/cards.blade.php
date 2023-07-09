@@ -1,70 +1,57 @@
-<!-- Content Row -->
-{{-- <div class="row">
-
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-6 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
+<div class="row g-4 mb-5">
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
             <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Alumni (Sudah Mengisi)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $finish }}</div>
+                <div class="d-flex justify-content-between mb-2">
+                    <h6 class="fw-normal">Total {{ $admin }} users</h6>
+
+                </div>
+                <div class="d-flex justify-content-between align-items-end">
+                    <div class="role-heading">
+                        <h4 class="mb-1">Administrator</h4>
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
+                            class="role-edit-modal"><small>Edit Role</small></a>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                    <a href="javascript:void(0);" class="text-muted"><i class="bx bx-copy"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <h6 class="fw-normal">Total {{ $operator }} users</h6>
+
+                </div>
+                <div class="d-flex justify-content-between align-items-end">
+                    <div class="role-heading">
+                        <h4 class="mb-1">Operator</h4>
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
+                            class="role-edit-modal"><small>Edit Role</small></a>
                     </div>
+                    <a href="javascript:void(0);" class="text-muted"><i class="bx bx-copy"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <h6 class="fw-normal">Total {{ $class }} class</h6>
+
+                </div>
+                <div class="d-flex justify-content-between align-items-end">
+                    <div class="role-heading">
+                        <h4 class="mb-1">Student Class</h4>
+                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
+                            class="role-edit-modal"><small>Edit Role</small></a>
+                    </div>
+                    <a href="javascript:void(0);" class="text-muted"><i class="bx bx-copy"></i></a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-6 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Alumni (Sedang Mengisi)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $current }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-user fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
-
-<div class="row">
-    <div class="col-lg-6 col-6">
-        <!-- small box -->
-        <div class="small-box bg-info">
-            <div class="inner">
-                {{-- <h3>150</h3> --}}
-                <h3>{{ $finish }}</h3>
-                <p>Alumni Sudah Mengisi</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-check"></i>
-            </div>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-6 col-6">
-        <!-- small box -->
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>{{ $current }}</h3>
-
-                <p>Alumni Sedang Mengisi</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-clock"></i>
-            </div>
-        </div>
-    </div>
 </div>

@@ -1,22 +1,24 @@
-<footer class="pt-16">
-    <div class="container mx-auto px-4 lg:max-w-7xl grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        <div class="col-span-1 md:col-span-4 lg:col-span-2 mb-4 md:mb-6 lg:mb-0"><a href="https://www.petanikode.com">
-                <h1 class="text-2xl text-primary">
-                    Sekolah Prestasi Prima
-                </h1>
-            </a>
-            <p class="mt-6">Jl. Hankam Raya No. 89 Cilangkap,
-                Cipayung Jakarta Timur, DKI Jakarta
-                <br>
-                Phone: +62 812-1962-4232
-                <br>
-                Email: ppdb@prestasiprima.sch.id
-            </p>
+@if ($using)
+    <footer class="w-full p-2 bg-white border-t border-gray-200 shadow mt-auto">
+        <div class="container mx-auto max-w-7xl md:flex md:items-center md:justify-between md:p-3">
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a
+                    href="https://www.linkedin.com/in/ynrrizki/" class="hover:underline">Developed By Yanuar Rizki</a>
+            </span>
+            <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+                <li>
+                    <a href="https://prestasiprima.sch.id/" class="mr-4 hover:underline md:mr-6">Sekolah Prestasi
+                        Prima</a>
+                </li>
+                {{-- <li>
+                <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+            </li>
+            <li>
+                <a href="#" class="mr-4 hover:underline md:mr-6">Licensing</a>
+            </li>
+            <li>
+                <a href="#" class="hover:underline">Contact</a>
+            </li> --}}
+            </ul>
         </div>
-
-    </div>
-    <div class="text-xs tracking-wide py-6 mt-16 max-w-7xl mx-auto border-t border-gray-300 text-center">© 2023 <a
-            href="https://www.petanikode.com" class="hover:text-orange-400"><strong>Prestasi Prima</strong></a>
-
-    </div>
-</footer>
+    </footer>
+@endif

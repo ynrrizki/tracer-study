@@ -1,8 +1,11 @@
 <table>
     <thead>
         <tr>
-            <th style="text-align: center; font-weight: bold" colspan="7">Data Diri</th>
-            <th style="text-align: center; font-weight: bold" colspan="{{ count($questions) }}">Pertanyaan Survey</th>
+            <th style="text-align: center; font-weight: bold; border: 5px solid orange;" colspan="8">Data Diri</th>
+            <th style="text-align: center; font-weight: bold; border: 5px solid blue;" colspan="{{ count($survey) }}">
+                Pertanyaan Survey</th>
+            <th style="text-align: center; font-weight: bold; border: 5px solid red;" colspan="{{ count($feedback) }}">
+                Pertanyaan FeedBack</th>
         </tr>
         <tr>
             <th>
@@ -15,9 +18,6 @@
                 Email
             </th>
             <th>
-                Jurusan
-            </th>
-            <th>
                 Alamat
             </th>
             <th>
@@ -26,7 +26,18 @@
             <th>
                 Tanggal Lahir
             </th>
-            @foreach ($questions as $question)
+            <th>
+                Jurusan
+            </th>
+            <th>
+                Lembaga
+            </th>
+            @foreach ($survey as $question)
+                <th>
+                    {{ $question->name }}
+                </th>
+            @endforeach
+            @foreach ($feedback as $question)
                 <th>
                     {{ $question->name }}
                 </th>
@@ -46,21 +57,37 @@
                     {{ $alumni->email }}
                 </td>
                 <td>
+                    {{ $alumni->personalData->address ?? '' }}
+                </td>
+                <td>
+                    {{ $alumni->personalData->phone ?? '' }}
+                </td>
+                <td>
+                    {{ $alumni->personalData->birth_date ?? '' }}
+                </td>
+                <td>
                     {{ $alumni->personalData->major->name ?? '' }}
                 </td>
                 <td>
-                    {{ $alumni->personalData->major->address ?? '' }}
+                    {{ $alumni->typeSchool->name ?? '' }}
                 </td>
-                <td>
-                    {{ $alumni->personalData->major->phone ?? '' }}
-                </td>
-                <td>
-                    {{ $alumni->personalData->major->birth_date ?? '' }}
-                </td>
-                @foreach ($alumni->answers as $answer)
-                    <td>
-                        {{ $answer->fill ?? '-' }}
-                    </td>
+                @foreach ($survey as $question)
+                    @foreach ($alumni->answers as $answer)
+                        @if ($answer->question_id == $question->id)
+                            <td>
+                                {{ $answer->fill ?? '-' }}
+                            </td>
+                        @endif
+                    @endforeach
+                @endforeach
+                @foreach ($feedback as $question)
+                    @foreach ($alumni->answers as $answer)
+                        @if ($answer->question_id == $question->id)
+                            <td>
+                                {{ $answer->fill ?? '-' }}
+                            </td>
+                        @endif
+                    @endforeach
                 @endforeach
             </tr>
         @endforeach

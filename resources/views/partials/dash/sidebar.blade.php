@@ -1,121 +1,72 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="{{ route('admin') }}" class="brand-link text-center">
-        {{-- <img src="{{ asset('themes/admin-lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-            class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
-        <span class="brand-text font-weight-light">Admin Panel</span>
-    </a>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="{{ asset('themes/admin-lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
-                    alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-            </div>
-        </div>
-
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-       with font-awesome or any other icon font library -->
-                {{-- <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="./index.html" class="nav-link active">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v1</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="./index2.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v2</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v3</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
-                {{-- <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Widgets
-                            <span class="right badge badge-danger">New</span>
-                        </p>
-                    </a>
-                </li> --}}
-                <li class="nav-item">
-                    <a href="{{ route('admin') }}" class="nav-link {{ is_route('admin', 'active') }}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.question') }}" class="nav-link {{ is_route('admin.question', 'active') }}">
-                        <i class="nav-icon fas fa-question"></i>
-                        <p>
-                            Form Pertanyaan
-                        </p>
-                    </a>
-                </li>
-                {{-- <li class="nav-item">
-                    <a href="{{ route('admin') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            My Account
-                        </p>
-                    </a>
-                </li> --}}
-                <li class="nav-item">
-                    <a href="#"
-                        class="nav-link {{ is_route(['users.index', 'users.create', 'users.edit'], 'active') }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Users
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('users.index') }}"
-                                class="nav-link {{ is_route('users.index', 'active') }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List User</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('users.create') }}"
-                                class="nav-link {{ is_route('users.create', 'active') }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add User</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
+<aside id="layout-menu" class="layout-menu-horizontal menu-horizontal  menu bg-menu-theme flex-grow-0">
+    <div class="container-xxl d-flex h-100">
+        <ul class="menu-inner">
+            <!-- Dashboards -->
+            <li class="menu-item {{ is_route('admin', 'active') }}">
+                <a href="{{ route('admin') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                    <div data-i18n="Dashboard">Dashboard</div>
+                </a>
+            </li>
+            <!-- Form Pertanyaan -->
+            <li class="menu-item {{ is_route('admin.question', 'active') }}">
+                <a href="{{ route('admin.question') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-book-content"></i>
+                    <div data-i18n="Form Kuisioner">Form Kuisioner</div>
+                </a>
+            </li>
+            <!-- Manajemen Alumni -->
+            <li class="menu-item {{ is_route('user.index', 'active') }}">
+                <a href="{{ route('user.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div data-i18n="Manajemen Alumni">Manajemen Alumni</div>
+                </a>
+            </li>
+            <!-- Manajemen Jurusan -->
+            <li class="menu-item {{ is_route('major.index', 'active') }}">
+                <a href="{{ route('major.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-blanket"></i>
+                    <div data-i18n="Manajemen Jurusan">Manajemen Jurusan</div>
+                </a>
+            </li>
+            {{-- <li class="menu-item">
+                <a href="javascript:void(0)" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div data-i18n="Layouts">Manajemen Alumni</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a href="layouts-without-menu.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-menu"></i>
+                            <div data-i18n="Without menu">Without menu</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="../vertical-menu-template/" class="menu-link" target="_blank">
+                            <i class="menu-icon tf-icons bx bx-vertical-center"></i>
+                            <div data-i18n="Vertical">Vertical</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="layouts-fluid.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-fullscreen"></i>
+                            <div data-i18n="Fluid">Fluid</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="layouts-container.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-exit-fullscreen"></i>
+                            <div data-i18n="Container">Container</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="layouts-blank.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-square-rounded"></i>
+                            <div data-i18n="Blank">Blank</div>
+                        </a>
+                    </li>
+                </ul>
+            </li> --}}
+        </ul>
     </div>
-    <!-- /.sidebar -->
 </aside>
