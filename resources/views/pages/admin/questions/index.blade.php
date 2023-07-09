@@ -17,6 +17,14 @@
                 cursor: pointer;
             }
 
+            .question-card:hover {
+                border-left: 3px solid rgb(255, 211, 129) !important;
+            }
+
+            .question-card:hover .move {
+                opacity: 1;
+            }
+
             .border-active {
                 border-left: 3px solid var(--bs-orange) !important;
                 pointer-events: none;
@@ -381,7 +389,7 @@
             });
 
             // Menghapus input option pada tombol hapus
-            $(document).on('click', '.input-group-append button', function() {
+            $(document).on('click', '.option-input-card button', function() {
                 let inputGroup = $(this).closest('.input-group');
                 let inputHidden = inputGroup.find('input[name="typeInputId[]"]');
                 let deleteButton = inputGroup.find('button[type="submit"]');
